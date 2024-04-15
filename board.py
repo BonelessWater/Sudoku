@@ -10,8 +10,8 @@ class Board:
         self.difficulty = difficulty
         self.cells = [[Cell(0, i, j, screen) for j in range(9)] for i in range(9)]
         self.selected_cell = None
-        #self.generator = SudokuGenerator(9, self.difficulty_to_removed_cells(difficulty))
-        #self.board = self.generator.get_board()
+        self.generator = SudokuGenerator(9, self.difficulty_to_removed_cells(difficulty))
+        self.board = self.generator.get_board()
 
     def draw(self):
         pass

@@ -25,7 +25,7 @@ def main():
     pygame.display.set_caption('Sudoku') 
     
     screen.fill(background_colour) 
-    
+
     menu = True
 
     # Game status will switch to false when the user wins or loses
