@@ -5,7 +5,7 @@ from board import Board
 from button import Button
 
 # We will use pygame to display and interact with the board
-import pygame
+#import pygame
 
 def main():
     # User selects diffculty between easy, medium and hard with 30, 40 and 50 empty cells respectively
