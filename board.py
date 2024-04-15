@@ -7,14 +7,23 @@ class Board:
         self.width = width
         self.height = height
         self.screen = screen
-        self.difficulty = difficulty
         self.cells = [[Cell(0, i, j, screen) for j in range(9)] for i in range(9)]
         self.selected_cell = None
-        self.generator = SudokuGenerator(9, self.difficulty_to_removed_cells(difficulty))
+
+        # Selects removed cells according to the difficulty level
+        if difficulty == 0:
+            removed_cells = 30
+        elif difficulty == 1:
+            removed_cells = 40
+        else:
+            removed_cells = 50
+
+        self.generator = SudokuGenerator(9, removed_cells)
         self.board = self.generator.get_board()
 
     def draw(self):
-        pass
+        for i in range(len(self.cells)):
+            self.cells[i].draw()
 
     def select(self, row, col):
         pass

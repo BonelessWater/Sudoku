@@ -22,5 +22,7 @@ class Cell:
         # width and height of the cell is determined by the screen information
         width = self.screen.get_width()
         height = self.screen.get_height()
-        
-        pass # Up to cedric to determine how he wants to design the cell
+
+        # Must use row and column index to position the cell (cedric plis clutch up)
+
+        pass
