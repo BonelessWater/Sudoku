@@ -14,8 +14,7 @@ def main():
     normalButton = Button("NormalButton.png", 300, 900, 300, 100) # Button class is created
     hardButton = Button("HardButton.png", 600, 900, 300, 100) # Button class is created
 
-    # CONSTANTS:
-    
+    # CONSTANTS: 
     background_colour = (255, 255, 255) 
 
     width = 900 # in pixels (subject to change)
