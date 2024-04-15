@@ -1,4 +1,5 @@
 from cell import Cell
+import pygame
 from sudokugenerator import SudokuGenerator
 
 
