@@ -7,10 +7,8 @@ from button import Button
 # We will use pygame to display and interact with the board
 import pygame
 
-
 def main():
     # User selects diffculty between easy, medium and hard with 30, 40 and 50 empty cells respectively
-
     
     easyButton = Button("EasyButton.png", 0, 900, 300, 100) # Button class is created
     normalButton = Button("NormalButton.png", 300, 900, 300, 100) # Button class is created
@@ -26,8 +24,6 @@ def main():
 
     pygame.display.set_caption('Sudoku') 
     
-    #hey
-
     screen.fill(background_colour) 
 
     board = Board(width, height, screen, difficulty=0)
@@ -77,7 +73,6 @@ def main():
 
     # If user highlights a sketched box and presses enter:
         # user sumbits guess
-
 
     pass
 
