@@ -12,6 +12,7 @@ import pygame
 def main():
     # User selects diffculty between easy, medium and hard with 30, 40 and 50 empty cells respectively
     
+    #hey
 
     # Game status will switch to false when the user wins or loses
     game_status = True
