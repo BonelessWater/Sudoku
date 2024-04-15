@@ -12,9 +12,9 @@ def main():
     # User selects diffculty between easy, medium and hard with 30, 40 and 50 empty cells respectively
 
     
-    easyButton = Button("EasyButton.png", 0, 900, 300, 100) #Button class is created
-    normalButton = Button("NormalButton.png", 300, 900, 300, 100) #Button class is created
-    hardButton = Button("HardButton.png", 600, 900, 300, 100) #Button class is created
+    easyButton = Button("EasyButton.png", 0, 900, 300, 100) # Button class is created
+    normalButton = Button("NormalButton.png", 300, 900, 300, 100) # Button class is created
+    hardButton = Button("HardButton.png", 600, 900, 300, 100) # Button class is created
 
     # CONSTANTS:
     
