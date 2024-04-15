@@ -1,3 +1,5 @@
+from cell import Cell
+from sudokugenerator import SudokuGenerator
 
 class Board:
 
