@@ -2,22 +2,49 @@
 from sudokugenerator import SudokuGenerator
 from cell import Cell
 from board import Board
-
+from button import Button
 
 # We will use pygame to display and interact with the board
 import pygame
 
+
+
 def main():
     # User selects diffculty between easy, medium and hard with 30, 40 and 50 empty cells respectively
+
+    button = Button() #Button class is created
+    button.setCords(200,200) #Button is displayed at 200,200
+
+    # CONSTANTS:
+    
+    background_colour = (0, 0, 0) 
+
+    width = 600 # in pixels (subject to change)
+    height = 600 # in pixels (subject to change)
+    screen = pygame.display.set_mode((width, height)) 
+
+    pygame.display.set_caption('Sudoku') 
     
     #hey
+
+    screen.fill(background_colour) 
+
+    board = Board(width, height, screen, difficulty=0)
+
 
     # Game status will switch to false when the user wins or loses
     game_status = True
     while game_status:
-        break
-    
+        for event in pygame.event.get(): 
+      
+            # Check for QUIT event       
+            if event.type == pygame.QUIT: 
+                game_status = False
 
+        # Update the display using flip 
+        pygame.display.flip()
+
+    
     ### Pseudo code ###
 
 
