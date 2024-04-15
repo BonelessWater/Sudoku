@@ -22,8 +22,10 @@ class SudokuGenerator:
 	Return:
 	None
     '''
-    def __init__(self, row_length, removed_cells):
-        pass
+    def __init__(self, board, row_length, removed_cells):
+        self.board = board
+        self.row_length = row_length
+        self.removed_cells = removed_cells # (int) depends on difficulty
 
     '''
 	Returns a 2D python list of numbers which represents the board
@@ -32,7 +34,7 @@ class SudokuGenerator:
 	Return: list[list]
     '''
     def get_board(self):
-        pass
+        return(self.board)
 
     '''
 	Displays the board to the console
@@ -42,7 +44,7 @@ class SudokuGenerator:
 	Return: None
     '''
     def print_board(self):
-        pass
+        print(self.board)
 
     '''
 	Determines if num is contained in the specified row (horizontal) of the board
@@ -55,7 +57,9 @@ class SudokuGenerator:
 	Return: boolean
     '''
     def valid_in_row(self, row, num):
-        pass
+        if num in row:
+            return False # Number is not valid if it appears in the same row
+        return True
 
     '''
 	Determines if num is contained in the specified column (vertical) of the board
@@ -67,8 +71,12 @@ class SudokuGenerator:
 	
 	Return: boolean
     '''
+    # IMPORTANT: this function takes in the column index, not the column number itself
     def valid_in_col(self, col, num):
-        pass
+        for i in range(self.row_length):
+            if self.board[col] == num:
+                return False # Number is not valid if it appears in the same column
+        return True
 
     '''
 	Determines if num is contained in the 3x3 box specified on the board
@@ -82,8 +90,13 @@ class SudokuGenerator:
 
 	Return: boolean
     '''
+    # IMPORTANT: this function takes in the col and row start index, not the col and row start number itself
     def valid_in_box(self, row_start, col_start, num):
-        pass
+        for row in range(3):
+            for col in range(3):
+                if num == self.board[row + row_start][col + col_start]:
+                    return False # Number is not valid if it appears in the same column
+        return True
     
     '''
     Determines if it is valid to enter num at (row, col) in the board

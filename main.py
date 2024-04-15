@@ -1,5 +1,3 @@
-# 123
-# wassup
 # Import new files here
 from sudokugenerator import SudokuGenerator
 from cell import Cell
