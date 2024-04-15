@@ -8,19 +8,20 @@ from button import Button
 import pygame
 
 
-
 def main():
     # User selects diffculty between easy, medium and hard with 30, 40 and 50 empty cells respectively
 
-    button = Button() #Button class is created
-    button.setCords(200,200) #Button is displayed at 200,200
+    
+    easyButton = Button("EasyButton.png", 0, 900, 300, 100) #Button class is created
+    normalButton = Button("NormalButton.png", 300, 900, 300, 100) #Button class is created
+    hardButton = Button("HardButton.png", 600, 900, 300, 100) #Button class is created
 
     # CONSTANTS:
     
     background_colour = (0, 0, 0) 
 
-    width = 600 # in pixels (subject to change)
-    height = 600 # in pixels (subject to change)
+    width = 900 # in pixels (subject to change)
+    height = 1000 # in pixels (subject to change)
     screen = pygame.display.set_mode((width, height)) 
 
     pygame.display.set_caption('Sudoku') 
@@ -40,6 +41,18 @@ def main():
             # Check for QUIT event       
             if event.type == pygame.QUIT: 
                 game_status = False
+            elif event.type == pygame.MOUSEBUTTONDOWN:
+                mouse_pos = pygame.mouse.get_pos()
+                if easyButton.is_clicked(mouse_pos):
+                    print("Easy button clicked!")
+                elif normalButton.is_clicked(mouse_pos):
+                    print("Normal button clicked!")
+                elif hardButton.is_clicked(mouse_pos):
+                    print("Hard button clicked!")
+
+        easyButton.draw(screen)
+        normalButton.draw(screen)
+        hardButton.draw(screen)
 
         # Update the display using flip 
         pygame.display.flip()

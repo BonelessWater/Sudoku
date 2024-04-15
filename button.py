@@ -1,26 +1,17 @@
 import pygame
-import os
-import py5
 
-class Button(pygame.sprite.Sprite):
-    """Class used to create a button, use setCords to set 
-        position of topleft corner. Method pressed() returns
-        a boolean and should be called inside the input loop."""
+import pygame
+
+class Button:
+    def __init__(self, image_path, x, y, width, height):
+        self.image = pygame.image.load(image_path)
+        self.image = pygame.transform.scale(self.image, (width, height))  # Resize image
+        self.rect = self.image.get_rect()
+        self.rect.topleft = (x, y)
     
-    def __init__(self):
-        pygame.sprite.Sprite.__init__(self)
-        self.image, self.rect = load_image('button.png', -1)
-
-    def setCords(self,x,y):
-        self.rect.topleft = x,y
-
-    def pressed(self,mouse):
-        if mouse[0] > self.rect.topleft[0]:
-            if mouse[1] > self.rect.topleft[1]:
-                if mouse[0] < self.rect.bottomright[0]:
-                    if mouse[1] < self.rect.bottomright[1]:
-                        return True
-                    else: return False
-                else: return False
-            else: return False
-        else: return False
+    def draw(self, surface):
+        surface.blit(self.image, self.rect)
+    
+    def is_clicked(self, pos):
+        return self.rect.collidepoint(pos)
+    
