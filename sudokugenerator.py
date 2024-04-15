@@ -1,8 +1,6 @@
 import math, random
 # Test
 
-
-
 """
 This was adapted from a GeeksforGeeks article "Program for Sudoku Generator" by Aarti_Rathi and Ankur Trisal
 https://www.geeksforgeeks.org/program-sudoku-generator/
@@ -112,7 +110,7 @@ class SudokuGenerator:
 	Return: boolean
     '''
     def is_valid(self, row, col, num):
-        pass
+        return self.valid_in_row(row, num) and self.valid_in_col(col, num) and self.valid_in_box()
 
     '''
     Fills the specified 3x3 box with values

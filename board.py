@@ -41,7 +41,6 @@ class Board:
             if self.generator.is_valid(self.selected_cell.row, self.selected_cell.col, value):
                 self.selected_cell.set_cell_value(value)
                 self.update_board()
-        pass
 
     def is_full(self):
         """
@@ -55,7 +54,6 @@ class Board:
                 if cell.value == 0:
                     return False
         return True
-        pass
         #Returns a Boolean value indicating whether the board is full or not.
 
     def update_board(self):
@@ -66,7 +64,6 @@ class Board:
         for i in range(9):
             for j in range(9):
                 self.cells[i][j].set_cell_value(self.board[i][j])
-        pass
         #Updates the underlying 2D board with the values in all cells.
 
     def find_empty(self):
@@ -81,7 +78,6 @@ class Board:
                 if cell.value == 0:
                     return i, j
         return None
-        pass
         #Finds an empty cell and returns its row and col as a tuple (x, y).
         
     def check_board(self):
@@ -93,5 +89,4 @@ class Board:
             bool: True if the board is correctly solved, False otherwise.
             """
         return self.generator.check_solution(self.board)
-        pass
         #Check whether the Sudoku board is solved correctly. 
