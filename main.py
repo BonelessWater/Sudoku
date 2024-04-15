@@ -16,7 +16,7 @@ def main():
 
     # CONSTANTS:
     
-    background_colour = (0, 0, 0) 
+    background_colour = (255, 255, 255) 
 
     width = 900 # in pixels (subject to change)
     height = 1000 # in pixels (subject to change)
@@ -25,9 +25,8 @@ def main():
     pygame.display.set_caption('Sudoku') 
     
     screen.fill(background_colour) 
-
-    board = Board(width, height, screen, difficulty=0)
-
+    
+    menu = True
 
     # Game status will switch to false when the user wins or loses
     game_status = True
@@ -37,18 +36,30 @@ def main():
             # Check for QUIT event       
             if event.type == pygame.QUIT: 
                 game_status = False
-            elif event.type == pygame.MOUSEBUTTONDOWN:
+            elif event.type == pygame.MOUSEBUTTONDOWN: 
                 mouse_pos = pygame.mouse.get_pos()
-                if easyButton.is_clicked(mouse_pos):
+                if easyButton.is_clicked(mouse_pos) and menu: # The menu variable will become false when user selects a difficulty
+                    menu = False
+                    difficulty = 0
+                    board = Board(width, height, screen, difficulty)
                     print("Easy button clicked!")
-                elif normalButton.is_clicked(mouse_pos):
+                elif normalButton.is_clicked(mouse_pos) and menu:
+                    menu = False
+                    difficulty = 1
+                    board = Board(width, height, screen, difficulty)
                     print("Normal button clicked!")
-                elif hardButton.is_clicked(mouse_pos):
+                elif hardButton.is_clicked(mouse_pos) and menu:
+                    menu = False
+                    difficulty = 2
+                    board = Board(width, height, screen, difficulty)
                     print("Hard button clicked!")
-
-        easyButton.draw(screen)
-        normalButton.draw(screen)
-        hardButton.draw(screen)
+        if menu:
+            easyButton.draw(screen)
+            normalButton.draw(screen)
+            hardButton.draw(screen)
+        else:
+            pass
+            # This should be the location of the game screen
 
         # Update the display using flip 
         pygame.display.flip()
