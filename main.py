@@ -8,6 +8,7 @@ from button import Button
 import pygame
 
 def main():
+
     # User selects diffculty between easy, medium and hard with 30, 40 and 50 empty cells respectively
     
     easyButton = Button("EasyButton.png", 0, 900, 300, 100) # Button class is created
@@ -17,13 +18,26 @@ def main():
     # CONSTANTS: 
     background_colour = (255, 255, 255) 
 
-    width = 900 # in pixels (subject to change)
-    height = 1000 # in pixels (subject to change)
-    screen = pygame.display.set_mode((width, height)) 
 
-    pygame.display.set_caption('Sudoku') 
+    width = 700  # in pixels (subject to change)
+    height = 800  # in pixels (subject to change)
+    screen = pygame.display.set_mode((width, height))
+
+    pygame.display.set_caption('Sudoku')
+
+    screen.fill(background_colour)
+
+    board = Board(width, height, screen, difficulty=0)
+
+    button_width = width // 3
+    button_height = height // 9
+    button_y_location = height - button_height
+    # User selects difficulty between easy, medium and hard with 30, 40 and 50 empty cells respectively
+
     
-    screen.fill(background_colour) 
+    easyButton = Button("EasyButton.png", 0, button_y_location, button_width, button_height)
+    normalButton = Button("NormalButton.png", button_width, button_y_location, button_width, button_height)
+    hardButton = Button("HardButton.png", 2 * button_width, button_y_location, button_width, button_height)
 
     menu = True
 
@@ -42,12 +56,12 @@ def main():
                     difficulty = 0
                     board = Board(width, height, screen, difficulty)
                     print("Easy button clicked!")
+                    board.draw()
                 elif normalButton.is_clicked(mouse_pos) and menu:
                     menu = False
                     difficulty = 1
                     board = Board(width, height, screen, difficulty)
                     print("Normal button clicked!")
-                    print(board)
                 elif hardButton.is_clicked(mouse_pos) and menu:
                     menu = False
                     difficulty = 2
@@ -58,7 +72,7 @@ def main():
             normalButton.draw(screen)
             hardButton.draw(screen)
         else:
-            pass
+            board.draw()
             # This should be the location of the game screen
 
         # Update the display using flip 
@@ -84,8 +98,6 @@ def main():
 
     # If user highlights a sketched box and presses enter:
         # user sumbits guess
-
-    pass
 
 if __name__ == "__main__":
     main()
