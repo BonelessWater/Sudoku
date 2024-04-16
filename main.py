@@ -32,6 +32,8 @@ def main():
     normalButton = Button("NormalButton.png", button_width, button_y_location, button_width, button_height)
     hardButton = Button("HardButton.png", 2 * button_width, button_y_location, button_width, button_height)
 
+    
+
     # Game status will switch to false when the user wins or loses
     game_status = menu = True
     while game_status:

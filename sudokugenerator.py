@@ -28,7 +28,7 @@ class SudokuGenerator:
         self.row_length = row_length
         self.removed_cells = removed_cells # (int) depends on difficulty
         self.board = board
-        self.box_length = math.sqrt(self.row_length)
+        self.box_length = row_length / 3
 
     '''
 	Returns a 2D python list of numbers which represents the board
@@ -61,6 +61,7 @@ class SudokuGenerator:
     '''
     def valid_in_row(self, row, num):
         for col in range(self.row_length):
+            print(row, col)
             if self.board[row][col] == num:
                 return False
         return True
@@ -78,8 +79,9 @@ class SudokuGenerator:
     # IMPORTANT: this function takes in the column index, not the column number itself
     def valid_in_col(self, col, num):
         for row in range(self.row_length):
+            print(row, col)
             if self.board[row][col] == num:
-                return False # Number is not valid if it appears in the same column
+                return False
         return True
 
     '''
@@ -96,8 +98,8 @@ class SudokuGenerator:
     '''
     # IMPORTANT: this function takes in the col and row start index, not the col and row start number itself
     def valid_in_box(self, row_start, col_start, num):
-        for row in range(len(self.box_length)):
-            for col in range(len(self.box_length)):
+        for row in range(self.box_length):
+            for col in range(self.box_length):
                 if num == self.board[row + row_start][col + col_start]:
                     return False # Number is not valid if it appears in the same column
         return True
@@ -140,7 +142,6 @@ class SudokuGenerator:
                 number = nums.pop(0) # pop(0) removes the value in the first index and returns that value
                 self.board[row][col].set_cell_value(number)
 
-    
     '''
     Fills the three boxes along the main diagonal of the board
     These are the boxes which start at (0,0), (3,3), and (6,6)
@@ -183,7 +184,6 @@ class SudokuGenerator:
                 col = 0
                 if row >= self.row_length:
                     return True
-        print(self.board)
         for num in range(1, self.row_length + 1):
             if self.is_valid(row, col, num):
                 self.board[row][col] = num
