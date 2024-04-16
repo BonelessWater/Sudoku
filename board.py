@@ -2,6 +2,7 @@ from cell import Cell
 from sudokugenerator import generate_sudoku
 import pygame
 
+
 class Board:
 
     def __init__(self, width, height, screen, difficulty):
@@ -22,7 +23,7 @@ class Board:
             removed_cells = 50
 
         self.board = generate_sudoku(9, removed_cells, self.cells) # Not sure if we can add another parameter (self.cells)
-        
+
     def draw(self):
         # Let bs = big square and let ss = small square
         total_squares = 9
@@ -51,17 +52,26 @@ class Board:
                                       j * bs_dimensions + l * ss_dimensions,
                                       ss_dimensions, ss_dimensions), ss_line_width)
 
-        for i in range(len(self.cells)):
-            self.cells[i].draw()
+
+        # Why is this here?? lol
+            # for i in range(len(self.cells)):
+                # self.cells[i].draw()
+
 
     def select(self, row, col):
         index = row * 9 + col
         self.selected_cell = index
 
     def click(self, x, y):
-        pass
+        if 0 <= x < self.width and 0 <= y < self.height:
+            row = y // (self.width // 9)
+            col = x // (self.width // 9)
+            return row, col
+        else:
+            return None
 
     def clear(self):
+
         pass
 
     def sketch(self, value):
