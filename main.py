@@ -7,11 +7,17 @@ from button import Button
 # We will use pygame to display and interact with the board
 import pygame
 
-
 def main():
-    # CONSTANTS:
 
-    background_colour = (255, 255, 255)
+    # User selects diffculty between easy, medium and hard with 30, 40 and 50 empty cells respectively
+    
+    easyButton = Button("EasyButton.png", 0, 900, 300, 100) # Button class is created
+    normalButton = Button("NormalButton.png", 300, 900, 300, 100) # Button class is created
+    hardButton = Button("HardButton.png", 600, 900, 300, 100) # Button class is created
+
+    # CONSTANTS: 
+    background_colour = (255, 255, 255) 
+
 
     width = 700  # in pixels (subject to change)
     height = 800  # in pixels (subject to change)
@@ -33,7 +39,7 @@ def main():
     normalButton = Button("NormalButton.png", button_width, button_y_location, button_width, button_height)
     hardButton = Button("HardButton.png", 2 * button_width, button_y_location, button_width, button_height)
 
-
+    menu = True
 
     # Game status will switch to false when the user wins or loses
     game_status = True
@@ -43,19 +49,31 @@ def main():
             # Check for QUIT event       
             if event.type == pygame.QUIT: 
                 game_status = False
-            elif event.type == pygame.MOUSEBUTTONDOWN:
+            elif event.type == pygame.MOUSEBUTTONDOWN: 
                 mouse_pos = pygame.mouse.get_pos()
-                if easyButton.is_clicked(mouse_pos):
+                if easyButton.is_clicked(mouse_pos) and menu: # The menu variable will become false when user selects a difficulty
+                    menu = False
+                    difficulty = 0
+                    board = Board(width, height, screen, difficulty)
                     print("Easy button clicked!")
                     board.draw()
-                elif normalButton.is_clicked(mouse_pos):
+                elif normalButton.is_clicked(mouse_pos) and menu:
+                    menu = False
+                    difficulty = 1
+                    board = Board(width, height, screen, difficulty)
                     print("Normal button clicked!")
-                elif hardButton.is_clicked(mouse_pos):
+                elif hardButton.is_clicked(mouse_pos) and menu:
+                    menu = False
+                    difficulty = 2
+                    board = Board(width, height, screen, difficulty)
                     print("Hard button clicked!")
-
-        easyButton.draw(screen)
-        normalButton.draw(screen)
-        hardButton.draw(screen)
+        if menu:
+            easyButton.draw(screen)
+            normalButton.draw(screen)
+            hardButton.draw(screen)
+        else:
+            board.draw()
+            # This should be the location of the game screen
 
         # Update the display using flip 
         pygame.display.flip()
@@ -80,9 +98,6 @@ def main():
 
     # If user highlights a sketched box and presses enter:
         # user sumbits guess
-
-
-    pass
 
 if __name__ == "__main__":
     main()
