@@ -40,7 +40,9 @@ class Board:
                 for k in range(3):
                     for l in range(3):
                         pygame.draw.rect(self.screen, (0, 0, 0),
-                                     (i * bs_dimensions + k * ss_dimensions, j * bs_dimensions + l * ss_dimensions, ss_dimensions, ss_dimensions), ss_line_width)
+                                     (i * bs_dimensions + k * ss_dimensions,
+                                      j * bs_dimensions + l * ss_dimensions,
+                                      ss_dimensions, ss_dimensions), ss_line_width)
 
         pass
 

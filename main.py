@@ -24,7 +24,7 @@ def main():
     board = Board(width, height, screen, difficulty=0)
 
     button_width = width // 3
-    button_height = height // 8
+    button_height = height // 9
     button_y_location = height - button_height
     # User selects difficulty between easy, medium and hard with 30, 40 and 50 empty cells respectively
 
@@ -32,7 +32,6 @@ def main():
     easyButton = Button("EasyButton.png", 0, button_y_location, button_width, button_height)
     normalButton = Button("NormalButton.png", button_width, button_y_location, button_width, button_height)
     hardButton = Button("HardButton.png", 2 * button_width, button_y_location, button_width, button_height)
-
 
 
 
