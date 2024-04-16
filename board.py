@@ -1,6 +1,6 @@
 from cell import Cell
-from sudokugenerator import generate_sudoku
 import pygame
+from sudokugenerator import SudokuGenerator
 
 
 class Board:
@@ -9,20 +9,12 @@ class Board:
         self.width = width
         self.height = height
         self.screen = screen
+        self.difficulty = difficulty
         self.cells = [[Cell(0, i, j, screen) for j in range(9)] for i in range(9)]
         self.selected_cell = None
-        # self.generator = SudokuGenerator(9, self.difficulty_to_removed_cells(difficulty))
-        # self.board = self.generator.get_board()
-
-        # Selects removed cells according to the difficulty level
-        if difficulty == 0:
-            removed_cells = 30
-        elif difficulty == 1:
-            removed_cells = 40
-        else:
-            removed_cells = 50
-
-        self.board = generate_sudoku(9, removed_cells, self.cells) # Not sure if we can add another parameter (self.cells)
+        self.generator = SudokuGenerator(9, self.difficulty_to_removed_cells(difficulty))
+        self.board = self.generator.get_board()
+        pass
 
     def draw(self):
         # Let bs = big square and let ss = small square
@@ -52,15 +44,8 @@ class Board:
                                       j * bs_dimensions + l * ss_dimensions,
                                       ss_dimensions, ss_dimensions), ss_line_width)
 
-
-        # Why is this here?? lol
-            # for i in range(len(self.cells)):
-                # self.cells[i].draw()
-
-
     def select(self, row, col):
-        index = row * 9 + col
-        self.selected_cell = index
+        pass
 
     def click(self, x, y):
         if 0 <= x < self.width and 0 <= y < self.height:
@@ -71,7 +56,6 @@ class Board:
             return None
 
     def clear(self):
-
         pass
 
     def sketch(self, value):
@@ -102,7 +86,7 @@ class Board:
                 if cell.value == 0:
                     return (i, j)
         return None
-        
+
     def check_board(self):
         """Checks if the board is correctly solved."""
         for i in range(9):
