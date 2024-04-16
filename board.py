@@ -1,6 +1,6 @@
 from cell import Cell
 from sudokugenerator import generate_sudoku
-
+import pygame
 
 class Board:
 
@@ -97,7 +97,6 @@ class Board:
         # Finds an empty cell and returns its row and col as a tuple (x, y).
         
     def check_board(self):
-        return self.generator.check_solution(self.board)
-        pass
+        return self.generator.check_solution(self.board) 
         # Check whether the Sudoku board is solved correctly.
 

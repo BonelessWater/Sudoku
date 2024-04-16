@@ -60,8 +60,8 @@ class SudokuGenerator:
 	Return: boolean
     '''
     def valid_in_row(self, row, num):
-        for i in range(9):
-            if self.board[row] == num:
+        for col in range(self.row_length):
+            if self.board[row][col] == num:
                 return False
         return True
 
@@ -77,8 +77,8 @@ class SudokuGenerator:
     '''
     # IMPORTANT: this function takes in the column index, not the column number itself
     def valid_in_col(self, col, num):
-        for i in range(self.row_length):
-            if self.board[col] == num:
+        for row in range(self.row_length):
+            if self.board[row][col] == num:
                 return False # Number is not valid if it appears in the same column
         return True
 
@@ -113,9 +113,9 @@ class SudokuGenerator:
 	Return: boolean
     '''
     def is_valid(self, row, col, num):
-        if self.valid_in_row(row,num) is True
-            and if self.valid_in_col(col,num) is True
-                and if self.valid_in_box(row - row % self.box_length, col - col % self.box_length, num) is True
+        if self.valid_in_row(row,num) == True:
+            if self.valid_in_col(col,num) == True:
+                if self.valid_in_box(row - row % self.box_length, col - col % self.box_length, num) == True:
                     return True
         return False
 
