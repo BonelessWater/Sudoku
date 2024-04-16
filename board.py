@@ -94,6 +94,18 @@ class Board:
         return None
         
     def check_board(self):
-        return self.generator.check_solution(self.board) 
-        # Check whether the Sudoku board is solved correctly.
+        """Checks if the board is correctly solved."""
+        for i in range(9):
+            row = [self.cells[i][j].value for j in range(9)]
+            column = [self.cells[j][i].value for j in range(9)]
+            box_row = (i // 3) * 3
+            box_col = (i % 3) * 3
+            box = [self.cells[box_row + x][box_col + y].value for x in range(3) for y in range(3)]
+            if not (self.is_group_valid(row) and self.is_group_valid(column) and self.is_group_valid(box)):
+                return False
+        return True
 
+    def is_group_valid(self, group):
+        """Helper method to check if a group (row, column, or box) contains no duplicates and includes 1-9."""
+        filtered = [num for num in group if num != 0]
+        return len(filtered) == 9 and len(set(filtered)) == 9
