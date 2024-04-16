@@ -28,7 +28,7 @@ class SudokuGenerator:
         self.row_length = row_length
         self.removed_cells = removed_cells # (int) depends on difficulty
         self.board = board
-        self.box_length = math.sqrt(self.row_length)
+        self.box_length = int(math.sqrt(self.row_length))
 
     '''
 	Returns a 2D python list of numbers which represents the board
@@ -78,7 +78,7 @@ class SudokuGenerator:
     # IMPORTANT: this function takes in the column index, not the column number itself
     def valid_in_col(self, col, num):
         for i in range(self.row_length):
-            if self.board[col] == num:
+            if self.board[int(col)] == num:
                 return False # Number is not valid if it appears in the same column
         return True
 
@@ -96,8 +96,8 @@ class SudokuGenerator:
     '''
     # IMPORTANT: this function takes in the col and row start index, not the col and row start number itself
     def valid_in_box(self, row_start, col_start, num):
-        for row in range(len(self.box_length)):
-            for col in range(len(self.box_length)):
+        for row in range(self.box_length):
+            for col in range(self.box_length):
                 if num == self.board[row + row_start][col + col_start]:
                     return False # Number is not valid if it appears in the same column
         return True
@@ -113,9 +113,9 @@ class SudokuGenerator:
 	Return: boolean
     '''
     def is_valid(self, row, col, num):
-        if self.valid_in_row(row,num) is True
-            and if self.valid_in_col(col,num) is True
-                and if self.valid_in_box(row - row % self.box_length, col - col % self.box_length, num) is True
+        if self.valid_in_row(row,num) == True:
+            if self.valid_in_col(col,num) == True:
+                if self.valid_in_box(row - row % self.box_length, col - col % self.box_length, num) == True:
                     return True
         return False
 
