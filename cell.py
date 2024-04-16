@@ -1,4 +1,5 @@
 import pygame
+
 class Cell:
 
     def __init__(self, value, row, col, screen):
@@ -7,8 +8,11 @@ class Cell:
         self.col = col
         self.screen = screen
         self.selected = False
-        self.font = pygame.font.Font(None, 11)
-        pass
+
+        pygame.init()
+        pygame.font.init()
+        self.font = pygame.font.SysFont('Arial', 36)
+
 
     def set_cell_value(self, value):
         self.value = value
