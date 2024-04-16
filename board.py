@@ -1,5 +1,5 @@
 from cell import Cell
-from sudokugenerator import SudokuGenerator
+from sudokugenerator import generate_sudoku
 
 class Board:
 
@@ -9,7 +9,6 @@ class Board:
         self.screen = screen
         self.cells = [[Cell(0, i, j, screen) for j in range(9)] for i in range(9)]
         self.selected_cell = None
-
         # Selects removed cells according to the difficulty level
         if difficulty == 0:
             removed_cells = 30
@@ -18,20 +17,20 @@ class Board:
         else:
             removed_cells = 50
 
-        self.generator = SudokuGenerator(9, removed_cells)
-        self.board = self.generator.get_board()
-
+        self.board = generate_sudoku(9, removed_cells, self.cells) # Not sure if we can add another parameter (self.cells)
+        
     def draw(self):
         for i in range(len(self.cells)):
             self.cells[i].draw()
 
     def select(self, row, col):
+        index = row * 9 + col
+        self.selected_cell = index
+
+    def click(self, x, y):
         pass
 
-    def click(self, row, col):
-        pass
-
-    def clear(self, x, y):
+    def clear(self):
         pass
 
     def sketch(self, value):
@@ -44,10 +43,10 @@ class Board:
                 self.update_board()
 
     def is_full(self):
-        for row in self.cells:
-            for cell in row:
-                if cell.value == 0:
-                    return False
+        for row in range(9):
+            for col in range(9):
+                if self.cells[row][col].value == 0:
+                    return False     
         return True
         #Returns a Boolean value indicating whether the board is full or not.
 

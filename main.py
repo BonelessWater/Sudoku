@@ -47,6 +47,7 @@ def main():
                     difficulty = 1
                     board = Board(width, height, screen, difficulty)
                     print("Normal button clicked!")
+                    print(board)
                 elif hardButton.is_clicked(mouse_pos) and menu:
                     menu = False
                     difficulty = 2
