@@ -66,31 +66,15 @@ def main():
             hardButton.draw(screen)
         else:
             board.draw()
-            # This should be the location of the game screen
+
+            # Add additional buttons here:
+
+            # These buttons should change the value of Menu to False or close the game
 
         # Update the display using flip 
         pygame.display.flip()
 
     
-    ### Pseudo code ###
-
-
-    # Three main buttons:
-    # If at ANY time user presses reset:
-        # board returns to its initial state (keep a variable of the boards initial state for this purpose)
-    # If at ANY time user presses restart:
-        # User will return to the main menu
-    # If at ANY time user presses Exit:
-        # the program terminates
-        # pygame.quit()
-    
-
-
-    # If user clicks on empty box:
-        # sketch box
-
-    # If user highlights a sketched box and presses enter:
-        # user sumbits guess
 
 if __name__ == "__main__":
     main()
