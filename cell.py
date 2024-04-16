@@ -3,6 +3,7 @@ import pygame
 class Cell:
 
     def __init__(self, value, row, col, screen):
+
         self.sketched_value = -1 # Initially set to negative one because this is an invalid number in the real game
         self.value = value
         self.row = row
@@ -24,5 +25,3 @@ class Cell:
         height = self.screen.get_height()
 
         # Must use row and column index to position the cell (cedric plis clutch up)
-
-        pass
