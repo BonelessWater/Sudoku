@@ -17,15 +17,45 @@ class Board:
         pass
 
     def draw(self):
-        pass
+        # Let bs = big square and let ss = small square
+        total_squares = 9
+        bs_dimensions = self.width // 3
+        ss_dimensions = bs_dimensions // 3
+        bs_line_width = 3
+        ss_line_width = 1
+
+        # PyGame states: rect(surface, color, rect, width=0,
+        # border_radius=0, border_top_left_radius=-1,
+        # border_top_right_radius=-1, border_bottom_left_radius=-1,
+        # border_bottom_right_radius=-1)
+
+        # Bigger Squares
+        for i in range(3):
+            for j in range(3):
+                pygame.draw.rect(self.screen, (0, 0, 0),
+                                 (i * bs_dimensions, j * bs_dimensions, bs_dimensions, bs_dimensions),
+                                 bs_line_width)
+
+            # Smaller Squares
+                for k in range(3):
+                    for l in range(3):
+                        pygame.draw.rect(self.screen, (0, 0, 0),
+                                     (i * bs_dimensions + k * ss_dimensions,
+                                      j * bs_dimensions + l * ss_dimensions,
+                                      ss_dimensions, ss_dimensions), ss_line_width)
 
     def select(self, row, col):
         pass
 
-    def click(self, row, col):
-        pass
+    def click(self, x, y):
+        if 0 <= x < self.width and 0 <= y < self.height:
+            row = y // (self.width // 9)
+            col = x // (self.width // 9)
+            return row, col
+        else:
+            return None
 
-    def clear(self, x, y):
+    def clear(self):
         pass
 
     def sketch(self, value):
