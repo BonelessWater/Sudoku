@@ -9,28 +9,31 @@ import pygame
 
 
 def main():
-    # User selects diffculty between easy, medium and hard with 30, 40 and 50 empty cells respectively
-
-    
-    easyButton = Button("EasyButton.png", 0, 900, 300, 100) # Button class is created
-    normalButton = Button("NormalButton.png", 300, 900, 300, 100) # Button class is created
-    hardButton = Button("HardButton.png", 600, 900, 300, 100) # Button class is created
-
     # CONSTANTS:
-    
-    background_colour = (0, 0, 0) 
 
-    width = 900 # in pixels (subject to change)
-    height = 1000 # in pixels (subject to change)
-    screen = pygame.display.set_mode((width, height)) 
+    background_colour = (255, 255, 255)
 
-    pygame.display.set_caption('Sudoku') 
-    
-    #hey
+    width = 700  # in pixels (subject to change)
+    height = 800  # in pixels (subject to change)
+    screen = pygame.display.set_mode((width, height))
 
-    screen.fill(background_colour) 
+    pygame.display.set_caption('Sudoku')
+
+    screen.fill(background_colour)
 
     board = Board(width, height, screen, difficulty=0)
+
+    button_width = width // 3
+    button_height = height // 8
+    button_y_location = height - button_height
+    # User selects difficulty between easy, medium and hard with 30, 40 and 50 empty cells respectively
+
+    
+    easyButton = Button("EasyButton.png", 0, button_y_location, button_width, button_height)
+    normalButton = Button("NormalButton.png", button_width, button_y_location, button_width, button_height)
+    hardButton = Button("HardButton.png", 2 * button_width, button_y_location, button_width, button_height)
+
+
 
 
     # Game status will switch to false when the user wins or loses
@@ -45,6 +48,7 @@ def main():
                 mouse_pos = pygame.mouse.get_pos()
                 if easyButton.is_clicked(mouse_pos):
                     print("Easy button clicked!")
+                    board.draw()
                 elif normalButton.is_clicked(mouse_pos):
                     print("Normal button clicked!")
                 elif hardButton.is_clicked(mouse_pos):
