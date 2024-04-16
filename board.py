@@ -68,33 +68,30 @@ class Board:
         pass
 
     def place_number(self, value):
+        """Places a number in the selected cell if it's valid according to Sudoku rules."""
         if self.selected_cell and self.selected_cell.value == 0:
-            if self.generator.is_valid(self.selected_cell.row, self.selected_cell.col, value):
+            row, col = self.selected_cell.row, self.selected_cell.col
+            if self.generator.is_valid(row, col, value):
                 self.selected_cell.set_cell_value(value)
                 self.update_board()
 
     def is_full(self):
-        for row in range(9):
-            for col in range(9):
-                if self.cells[row][col].value == 0:
-                    return False     
-        return True
-        # Returns a Boolean value indicating whether the board is full or not.
+        """Returns True if all cells in the board are filled, False if any are zero (empty)."""
+        return all(cell.value != 0 for row in self.cells for cell in row)
 
     def update_board(self):
+        """Synchronizes the GUI display with the internal board state."""
         for i in range(9):
             for j in range(9):
-                self.cells[i][j].set_cell_value(self.board[i][j])
-        # Updates the underlying 2D board with the values in all cells.
-
+                self.cells[i][j].set_cell_value(self.generator.board[i][j])
 
     def find_empty(self):
+        """Finds and returns the coordinates of the first empty cell found, or None if full."""
         for i, row in enumerate(self.cells):
             for j, cell in enumerate(row):
                 if cell.value == 0:
-                    return i, j
+                    return (i, j)
         return None
-        # Finds an empty cell and returns its row and col as a tuple (x, y).
         
     def check_board(self):
         return self.generator.check_solution(self.board) 
