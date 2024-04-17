@@ -11,10 +11,6 @@ def main():
     pygame.init()
     pygame.font.init()
 
-    easyButton = Button("EasyButton.png", 0, 900, 300, 100) # Button class is created
-    normalButton = Button("NormalButton.png", 300, 900, 300, 100) # Button class is created
-    hardButton = Button("HardButton.png", 600, 900, 300, 100) # Button class is created
-
     # CONSTANTS: 
     background_colour = (255, 255, 255) 
 
@@ -26,8 +22,6 @@ def main():
 
     screen.fill(background_colour)
 
-    removed_cells = {'easy': 30, 'medium': 40, 'hard': 50}
-
     button_width = width // 3
     button_height = height // 9
     button_y_location = height - button_height
@@ -35,8 +29,6 @@ def main():
     easyButton = Button("EasyButton.png", 0, button_y_location, button_width, button_height)
     normalButton = Button("NormalButton.png", button_width, button_y_location, button_width, button_height)
     hardButton = Button("HardButton.png", 2 * button_width, button_y_location, button_width, button_height)
-
-    
 
     # Game status will switch to false when the user wins or loses
     game_status = menu = True

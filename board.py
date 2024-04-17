@@ -1,5 +1,6 @@
 from cell import Cell
 from sudokugenerator import SudokuGenerator
+import pygame
 
 class Board:
 
@@ -8,19 +9,54 @@ class Board:
         self.height = height
         self.screen = screen
         self.difficulty = difficulty
-        self.generator = SudokuGenerator(9, {'easy': 20, 'medium': 40, 'hard': 60}[difficulty])
+        self.generator = SudokuGenerator(9, {'easy': 30, 'medium': 40, 'hard': 50}[difficulty])
         self.cells = [[Cell(self.generator.board[i][j], i, j, screen) for j in range(9)] for i in range(9)]
         self.selected_cell = None
         pass
 
     def draw(self):
-        pass
+         # Let bs = big square and let ss = small square
+        total_squares = 9
+        bs_dimensions = self.width // 3
+        ss_dimensions = bs_dimensions // 3
+        bs_line_width = 3
+        ss_line_width = 1
 
-    def select(self, row, col):
-        pass
+        # PyGame states: rect(surface, color, rect, width=0,
+        # border_radius=0, border_top_left_radius=-1,
+        # border_top_right_radius=-1, border_bottom_left_radius=-1,
+        # border_bottom_right_radius=-1)
 
-    def click(self, row, col):
-        pass
+        # Bigger Squares
+        for i in range(3):
+            for j in range(3):
+                pygame.draw.rect(self.screen, (0, 0, 0),
+                                 (i * bs_dimensions, j * bs_dimensions, bs_dimensions, bs_dimensions),
+                                 bs_line_width)
+
+            # Smaller Squares
+                for k in range(3):
+                    for l in range(3):
+                        pygame.draw.rect(self.screen, (0, 0, 0),
+                                     (i * bs_dimensions + k * ss_dimensions,
+                                      j * bs_dimensions + l * ss_dimensions,
+                                      ss_dimensions, ss_dimensions), ss_line_width)
+
+    def click(self, x, y):
+        if 0 <= x < self.width and 0 <= y < self.height:
+            row = y // (self.width // 9)
+            col = x // (self.width // 9)
+            return row, col
+        else:
+            return None
+        
+    def click(self, x, y):
+        if 0 <= x < self.width and 0 <= y < self.height:
+            row = y // (self.width // 9)
+            col = x // (self.width // 9)
+            return row, col
+        else:
+            return None
 
     def clear(self, x, y):
         pass
@@ -76,17 +112,23 @@ class Board:
         for i, row in enumerate(self.cells):
             for j, cell in enumerate(row):
                 if cell.value == 0:
-                    return i, j
+                    return (i, j)
         return None
         #Finds an empty cell and returns its row and col as a tuple (x, y).
         
     def check_board(self):
-        """
-            Checks if the current board setup is a correct solution according to Sudoku rules.
-            It ensures that each row, column, and 3x3 box contains all numbers from 1 to 9 without any repetitions.
+        """Checks if the board is correctly solved."""
+        for i in range(9):
+            row = [self.cells[i][j].value for j in range(9)]
+            column = [self.cells[j][i].value for j in range(9)]
+            box_row = (i // 3) * 3
+            box_col = (i % 3) * 3
+            box = [self.cells[box_row + x][box_col + y].value for x in range(3) for y in range(3)]
+            if not (self.is_group_valid(row) and self.is_group_valid(column) and self.is_group_valid(box)):
+                return False
+        return True
 
-            Returns:
-            bool: True if the board is correctly solved, False otherwise.
-            """
-        return self.generator.check_solution(self.board)
-        #Check whether the Sudoku board is solved correctly. 
+    def is_group_valid(self, group):
+        """Helper method to check if a group (row, column, or box) contains no duplicates and includes 1-9."""
+        filtered = [num for num in group if num != 0]
+        return len(filtered) == 9 and len(set(filtered)) == 9

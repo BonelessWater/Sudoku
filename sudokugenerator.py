@@ -114,11 +114,12 @@ class SudokuGenerator:
 	Return: boolean
     '''
     def is_valid(self, row, col, num):
-        if self.valid_in_row(row,num) == True:
-            if self.valid_in_col(col,num) == True:
-                if self.valid_in_box(row - row % self.box_length, col - col % self.box_length, num) == True:
-                    return True
-        return False
+        return self.valid_in_row(row, num) and elf.valid_in_col(col, num) and self.valid_in_box()
+        # if self.valid_in_row(row,num) == True:
+        #     if self.valid_in_col(col,num) == True:
+        #         if self.valid_in_box(row - row % self.box_length, col - col % self.box_length, num) == True:
+        #             return True
+        # return False
 
     '''
     Fills the specified 3x3 box with values
@@ -131,6 +132,7 @@ class SudokuGenerator:
 	Return: None
     '''
     def fill_box(self, row_start, col_start):
+        pass
 
         nums = [1,2,3,4,5,6,7,8,9]
         # This randomizes the order of the list of numbers; in order to reduce unecessary work.
