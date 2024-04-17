@@ -16,7 +16,7 @@ class Board:
 
         pygame.init()
         pygame.font.init()
-        self.font = pygame.font.SysFont("arial", 12) # subject to change (font type, font size)
+        self.font = pygame.font.SysFont("arial", 11)
 
         
 
@@ -35,17 +35,11 @@ class Board:
         # Bigger Squares
         for i in range(3):
             for j in range(3):
-                pygame.draw.rect(self.screen, (0, 0, 0),
-                                 (i * bs_dimensions, j * bs_dimensions, bs_dimensions, bs_dimensions),
-                                 bs_line_width)
-
-            # Smaller Squares
+                pygame.draw.rect(self.screen, (0, 0, 0),(i * bs_dimensions, j * bs_dimensions, bs_dimensions, bs_dimensions), bs_line_width)
                 for k in range(3):
                     for l in range(3):
-                        pygame.draw.rect(self.screen, (0, 0, 0),
-                                     (i * bs_dimensions + k * ss_dimensions,
-                                      j * bs_dimensions + l * ss_dimensions,
-                                      ss_dimensions, ss_dimensions), ss_line_width)
+                        pygame.draw.rect(self.screen, (0, 0, 0), (i * bs_dimensions + k * ss_dimensions, j * bs_dimensions + l * ss_dimensions, ss_dimensions, ss_dimensions), ss_line_width)
+
 
     def select(self, row, col):
         self.selected_cell = self.cells[row][col]
@@ -55,13 +49,21 @@ class Board:
             for col in range(9):
                 self.cells[row][col].draw()
 
-    def click(self, x, y):
-        if 0 <= x < self.width and 0 <= y < self.height:
-            row = y // (self.width // 9)
-            col = x // (self.width // 9)
-            return row, col
-        else:
-            return None
+        # Smaller Squares
+        for k in range(3):
+            for l in range(3):
+                pygame.draw.rect(self.screen, (0, 0, 0), (
+                i * bs_dimensions + k * ss_dimensions,
+                j * bs_dimensions + l * ss_dimensions, ss_dimensions,
+                ss_dimensions), ss_line_width);
+
+
+        for row in self.cells:
+             for cell in row:
+                 cell.draw()
+        # for row in range(9):
+        #     for col in range(9):
+        #         self.cells[row][col].draw()
         
     def click(self, x, y):
         if 0 <= x < self.width and 0 <= y < self.height:
@@ -82,6 +84,9 @@ class Board:
                 cell.set_sketched_value(None)
 
     def clear(self, x, y):
+        if self.selected_cell and self.selected_cell.value == 0:
+            self.selected_cell.set_cell_value(0)
+            self.update_board()
         pass
 
 
@@ -90,6 +95,10 @@ class Board:
             row, col = self.selected_cell
             cell = self.cells[row][col]
             cell.set_sketched_value(None)
+
+        if self.selected_cell and 0 < value <= 9:
+            self.selected_cell.set_sketched_value(value)
+
         pass
 
     def place_number(self, value):
@@ -125,9 +134,13 @@ class Board:
             Synchronizes the GUI representation of each cell with the underlying data structure of the board.
             This method is typically called after a value is placed to ensure the display matches the data.
             """
-        for i in range(9):
-            for j in range(9):
-                self.cells[i][j].set_cell_value(self.board[i][j])
+        for row in self.cells:
+            for cell in row:
+                cell.set_cell_value(cell.value)
+
+        # for i in range(9):
+        #     for j in range(9):
+        #         self.cells[i][j].set_cell_value(self.board[i][j])
         #Updates the underlying 2D board with the values in all cells.
 
     def find_empty(self):
@@ -147,7 +160,8 @@ class Board:
     def check_board(self):
         """Checks if the board is correctly solved."""
         for i in range(9):
-            row = [self.cells[i][j].value for j in range(9)]
+            row = [cell.value for cell in self.cells[i]]
+            # row = [self.cells[i][j].value for j in range(9)]
             column = [self.cells[j][i].value for j in range(9)]
             box_row = (i // 3) * 3
             box_col = (i % 3) * 3
@@ -158,5 +172,6 @@ class Board:
 
     def is_group_valid(self, group):
         """Helper method to check if a group (row, column, or box) contains no duplicates and includes 1-9."""
-        filtered = [num for num in group if num != 0]
-        return len(filtered) == 9 and len(set(filtered)) == 9
+        return len(set(group)) == 9 and all(group)
+        # filtered = [num for num in group if num != 0]
+        # return len(filtered) == 9 and len(set(filtered)) == 9
