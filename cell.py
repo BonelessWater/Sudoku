@@ -1,4 +1,5 @@
 import pygame
+
 class Cell:
 
     def __init__(self, value, row, col, screen):
@@ -8,10 +9,10 @@ class Cell:
         self.screen = screen
         self.selected = False
         self.font = pygame.font.Font(None, 11)
-        pass
 
     def set_cell_value(self, value):
         self.value = value
+
 
     def set_sketched_value(self, value):
         self.sketched_value = value
