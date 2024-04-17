@@ -1,6 +1,7 @@
 from cell import Cell
 import pygame
 from sudokugenerator import generate_sudoku
+from cell import Cell
 
 
 class Board:
@@ -53,6 +54,7 @@ class Board:
                                       ss_dimensions, ss_dimensions), ss_line_width)
 
     def select(self, row, col):
+        self.selected_cell = self.cells[row][col]
         pass
 
     def click(self, x, y):
@@ -64,9 +66,19 @@ class Board:
             return None
 
     def clear(self):
-        pass
+        if self.selected_cell is not None:
+            row, col = self.selected_cell
+            cell = self.cells[row][col]
+            if cell.value is None:
+                cell.set_cell_value(None)
+            elif cell.sketched_value is not None:
+                cell.set_sketched_value(None)
 
     def sketch(self, value):
+        if self.selected_cell is not None:
+            row, col = self.selected_cell
+            cell = self.cells[row][col]
+            cell.set_sketched_value(None)
         pass
 
     def place_number(self, value):
