@@ -1,5 +1,5 @@
 from cell import Cell
-from sudokugenerator import SudokuGenerator
+from sudokugenerator import generate_sudoku
 import pygame
 
 class Board:
@@ -9,14 +9,18 @@ class Board:
         self.height = height
         self.screen = screen
         self.difficulty = difficulty
-        self.generator = SudokuGenerator(9, {'easy': 30, 'medium': 40, 'hard': 50}[difficulty])
-        self.cells = [[Cell(self.generator.board[i][j], i, j, screen) for j in range(9)] for i in range(9)]
+        self.generator = generate_sudoku(9, {'easy': 30, 'medium': 40, 'hard': 50}[difficulty])
+        self.cells = [[Cell(self.generator[i][j], i, j, screen) for j in range(9)] for i in range(9)]
         self.selected_cell = None
-        pass
+
+        pygame.init()
+        pygame.font.init()
+        self.font = pygame.font.SysFont("arial", 12) # subject to change (font type, font size)
+
+        
 
     def draw(self):
          # Let bs = big square and let ss = small square
-        total_squares = 9
         bs_dimensions = self.width // 3
         ss_dimensions = bs_dimensions // 3
         bs_line_width = 3
@@ -41,6 +45,10 @@ class Board:
                                      (i * bs_dimensions + k * ss_dimensions,
                                       j * bs_dimensions + l * ss_dimensions,
                                       ss_dimensions, ss_dimensions), ss_line_width)
+
+        for row in range(9):
+            for col in range(9):
+                self.cells[row][col].draw()
 
     def click(self, x, y):
         if 0 <= x < self.width and 0 <= y < self.height:
