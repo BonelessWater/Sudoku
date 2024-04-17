@@ -5,15 +5,16 @@ from sudokugenerator import SudokuGenerator
 
 class Board:
 
-    def __init__(self, width, height, screen, difficulty):
+    def __init__(self, width, height, screen, difficulty, removed_cells):
         self.width = width
         self.height = height
         self.screen = screen
         self.difficulty = difficulty
+        self.removed_cells = removed_cells
         self.cells = [[Cell(0, i, j, screen) for j in range(9)] for i in range(9)]
         self.selected_cell = None
-        self.generator = SudokuGenerator(9, self.difficulty_to_removed_cells(difficulty))
-        self.board = self.generator.get_board()
+        # self.generator = SudokuGenerator(9, self.difficulty_to_removed_cells(difficulty))
+        # self.board = self.generator.get_board()
         pass
 
     def draw(self):

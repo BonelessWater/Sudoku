@@ -23,7 +23,10 @@ class SudokuGenerator:
 	Return:
 	None
     '''
-    def __init__(self, row_length, removed_cells, board):
+    def __init__(self, size, removed_cells, board, row_length):
+        self.size = size
+        self.removed_cells = removed_cells
+        self.board = [[0] * size for _ in range(size)]
         self.board = board
         self.row_length = row_length
         self.removed_cells = removed_cells # (int) depends on difficulty
@@ -115,11 +118,12 @@ class SudokuGenerator:
 	Return: boolean
     '''
     def is_valid(self, row, col, num):
-        if self.valid_in_row(row,num) == True:
-            if self.valid_in_col(col,num) == True:
-                if self.valid_in_box(row - row % self.box_length, col - col % self.box_length, num) == True:
-                    return True
-        return False
+        return self.valid_in_row(row, num) and elf.valid_in_col(col, num) and self.valid_in_box()
+        # if self.valid_in_row(row,num) == True:
+        #     if self.valid_in_col(col,num) == True:
+        #         if self.valid_in_box(row - row % self.box_length, col - col % self.box_length, num) == True:
+        #             return True
+        # return False
 
     '''
     Fills the specified 3x3 box with values
@@ -132,6 +136,7 @@ class SudokuGenerator:
 	Return: None
     '''
     def fill_box(self, row_start, col_start):
+        pass
 
         nums = [1,2,3,4,5,6,7,8,9]
         # This randomizes the order in the list of numbers; in order to reduce unecessary work.

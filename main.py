@@ -8,6 +8,7 @@ from button import Button
 import pygame
 
 def main():
+    pygame.init()
 
     easyButton = Button("EasyButton.png", 0, 900, 300, 100) # Button class is created
     normalButton = Button("NormalButton.png", 300, 900, 300, 100) # Button class is created
@@ -23,6 +24,11 @@ def main():
     pygame.display.set_caption('Sudoku')
 
     screen.fill(background_colour)
+
+    difficulty = 'easy'
+    removed_cells = {'easy': 30, 'medium': 40, 'hard': 50}[difficulty]
+    board = Board(width, height, screen, difficulty, removed_cells)
+
 
     button_width = width // 3
     button_height = height // 9
@@ -46,19 +52,22 @@ def main():
                 mouse_pos = pygame.mouse.get_pos()
                 if easyButton.is_clicked(mouse_pos) and menu: # The menu variable will become false when user selects a difficulty
                     menu = False
-                    difficulty = 0
-                    board = Board(width, height, screen, difficulty)
+                    difficulty = 'easy'
+                    # removed_cells = {'easy': 30}
+                    board = Board(width, height, screen, difficulty, removed_cells)
                     print("Easy button clicked!")
                     board.draw()
                 elif normalButton.is_clicked(mouse_pos) and menu:
                     menu = False
-                    difficulty = 1
-                    board = Board(width, height, screen, difficulty)
+                    difficulty = 'medium'
+                    # removed_cells = {'easy': 40}
+                    board = Board(width, height, screen, difficulty, removed_cells)
                     print("Normal button clicked!")
                 elif hardButton.is_clicked(mouse_pos) and menu:
                     menu = False
-                    difficulty = 2
-                    board = Board(width, height, screen, difficulty)
+                    difficulty = 'hard'
+                    # removed_cells = {'easy': 50}
+                    board = Board(width, height, screen, difficulty, removed_cells)
                     print("Hard button clicked!")
         if menu:
             easyButton.draw(screen)
