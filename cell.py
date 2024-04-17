@@ -1,25 +1,32 @@
+import pygame
+
 class Cell:
 
     def __init__(self, value, row, col, screen):
-
-        self.sketched_value = -1 # Initially set to negative one because this is an invalid number in the real game
         self.value = value
         self.row = row
         self.col = col
         self.screen = screen
+        self.selected = False
+
+        pygame.init()
+        pygame.font.init()
+        self.font = pygame.font.SysFont('Arial', 36)
+
 
     def set_cell_value(self, value):
-        self.value = value 
-        # I dont understand why the pdf tells us to take in a value.
-        # My intuition tells me that it should just use the sketched value 
-        # because the user has to set a sketched value before permanently setting it.
+        self.value = value
 
     def set_sketched_value(self, value):
         self.sketched_value = value
+        self.value = value
     
     def draw(self):
-        # width and height of the cell is determined by the screen information
-        width = self.screen.get_width()
-        height = self.screen.get_height()
-
-        # Must use row and column index to position the cell (cedric plis clutch up)
+        cell_width = 60 # Assuming each cell is 60 pixels
+        x = self.col * cell_width  
+        y = self.row * cell_width
+        pygame.draw.rect(self.screen, (255, 255, 255), (x, y, cell_width, cell_width))  # Draw cell background
+        if self.selected:
+            pygame.draw.rect(self.screen, (255, 0, 0), (x, y, cell_width, cell_width), 3)  # Draw red border if selected
+        text = self.font.render(str(self.value), True, (0, 0, 0))
+        self.screen.blit(text, (x + 20, y + 15))
