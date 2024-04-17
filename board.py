@@ -119,6 +119,7 @@ class Board:
                 return False
         return True
 
+
     def is_group_valid(self, group):
         """Helper method to check if a group (row, column, or box) contains no duplicates and includes 1-9."""
         filtered = [num for num in group if num != 0]
