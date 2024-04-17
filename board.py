@@ -1,6 +1,8 @@
 from cell import Cell
 import pygame
 from sudokugenerator import generate_sudoku
+from cell import Cell
+
 
 
 class Board:
@@ -53,6 +55,7 @@ class Board:
                                       ss_dimensions, ss_dimensions), ss_line_width)
 
     def select(self, row, col):
+        self.selected_cell = self.cells[row][col]
         pass
 
     def click(self, x, y):
@@ -64,11 +67,23 @@ class Board:
             return None
 
     def clear(self):
-        pass
+        if self.selected_cell is not None:
+            row, col = self.selected_cell
+            cell = self.cells[row][col]
+            if cell.value is not None:
+                cell.set_cell_value(None)
+            elif cell.sketched_value is not None:
+                cell.set_sketched_value(None)
+         pass
 
     def sketch(self, value):
+        if self.selected_cell is not None:
+            row, col = self.selected_cell
+            cell = self.cells[row][col]
+            cell.set_sketched_value(None)
         pass
 
+      
     def place_number(self, value):
         """Places a number in the selected cell if it's valid according to Sudoku rules."""
         if self.selected_cell and self.selected_cell.value == 0:
@@ -77,16 +92,19 @@ class Board:
                 self.selected_cell.set_cell_value(value)
                 self.update_board()
 
+                
     def is_full(self):
         """Returns True if all cells in the board are filled, False if any are zero (empty)."""
         return all(cell.value != 0 for row in self.cells for cell in row)
 
+      
     def update_board(self):
         """Synchronizes the GUI display with the internal board state."""
         for i in range(9):
             for j in range(9):
                 self.cells[i][j].set_cell_value(self.generator.board[i][j])
 
+                
     def find_empty(self):
         """Finds and returns the coordinates of the first empty cell found, or None if full."""
         for i, row in enumerate(self.cells):
@@ -95,6 +113,7 @@ class Board:
                     return (i, j)
         return None
 
+      
     def check_board(self):
         """Checks if the board is correctly solved."""
         for i in range(9):
@@ -107,7 +126,10 @@ class Board:
                 return False
         return True
 
+      
+
     def is_group_valid(self, group):
         """Helper method to check if a group (row, column, or box) contains no duplicates and includes 1-9."""
         filtered = [num for num in group if num != 0]
+        return len(filtered) == 9 and len(set(filtered)) == 9
         return len(filtered) == 9 and len(set(filtered)) == 9
