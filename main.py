@@ -8,10 +8,8 @@ from button import Button
 import pygame
 
 def main():
-
-    easyButton = Button("EasyButton.png", 0, 900, 300, 100) # Button class is created
-    normalButton = Button("NormalButton.png", 300, 900, 300, 100) # Button class is created
-    hardButton = Button("HardButton.png", 600, 900, 300, 100) # Button class is created
+    pygame.init()
+    pygame.font.init()
 
     # CONSTANTS: 
     background_colour = (255, 255, 255) 
@@ -32,8 +30,6 @@ def main():
     normalButton = Button("NormalButton.png", button_width, button_y_location, button_width, button_height)
     hardButton = Button("HardButton.png", 2 * button_width, button_y_location, button_width, button_height)
 
-    
-
     # Game status will switch to false when the user wins or loses
     game_status = menu = True
     while game_status:
@@ -46,18 +42,18 @@ def main():
                 mouse_pos = pygame.mouse.get_pos()
                 if easyButton.is_clicked(mouse_pos) and menu: # The menu variable will become false when user selects a difficulty
                     menu = False
-                    difficulty = 0
+                    difficulty = 'easy'
                     board = Board(width, height, screen, difficulty)
                     print("Easy button clicked!")
                     board.draw()
                 elif normalButton.is_clicked(mouse_pos) and menu:
                     menu = False
-                    difficulty = 1
+                    difficulty = 'medium'
                     board = Board(width, height, screen, difficulty)
                     print("Normal button clicked!")
                 elif hardButton.is_clicked(mouse_pos) and menu:
                     menu = False
-                    difficulty = 2
+                    difficulty = 'hard'
                     board = Board(width, height, screen, difficulty)
                     print("Hard button clicked!")
         if menu:
