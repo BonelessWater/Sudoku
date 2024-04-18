@@ -60,12 +60,23 @@ def main():
                 # Code based on TA help ----
                 elif event.button == 1:
                     x, y = pygame.mouse.get_pos()
+                    screen.fill((255, 255, 255))
+
+                    # NOTE: THIS IS WHERE WE WILL REPLACE THE BUTTONS WITH RESET, QUIT, ETC.
+                    easyButton.draw(screen)
+                    normalButton.draw(screen)
+                    hardButton.draw(screen)
+
                     if board.click(x, y) is not None:
                         x, y = board.click(x, y)
                         for row in range(9):
                             for col in range(9):
-                                board.cells[row][col].selected = False
-                        board.cells[x][y].selected = True
+                                if (row, col) != (x, y):
+                                    board.cells[row][col].selected = False
+                            board.cells[x][y].selected = True
+                        board.draw()
+
+
 
         if menu:
             easyButton.draw(screen)

@@ -52,12 +52,10 @@ class Board:
                 j * bs_dimensions + l * ss_dimensions, ss_dimensions,
                 ss_dimensions), ss_line_width)
 
-                for row in self.cells:
-                    for cell in row:
-                        cell.draw()
-        # for row in range(9):
-        #     for col in range(9):
-        #         self.cells[row][col].draw()
+            for row in self.cells:
+                for cell in row:
+                    cell.draw()
+
 
     def click(self, x, y):
         if 0 <= x < self.width and 0 <= y < self.height:
