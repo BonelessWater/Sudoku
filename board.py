@@ -21,7 +21,7 @@ class Board:
 
     def draw(self):
          # Let bs = big square and let ss = small square
-        bs_dimensions = self.width // 3
+        bs_dimensions = self.screen.get_width() // 3
         ss_dimensions = bs_dimensions // 3
         bs_line_width = 3
         ss_line_width = 1
@@ -34,10 +34,15 @@ class Board:
         # Bigger Squares
         for i in range(3):
             for j in range(3):
-                pygame.draw.rect(self.screen, (0, 0, 0),(i * bs_dimensions, j * bs_dimensions, bs_dimensions, bs_dimensions), bs_line_width)
+                pygame.draw.rect(self.screen, (0, 0, 0),
+                                 (i * bs_dimensions, j * bs_dimensions,
+                                  bs_dimensions, bs_dimensions), bs_line_width)
                 for k in range(3):
                     for l in range(3):
-                        pygame.draw.rect(self.screen, (0, 0, 0), (i * bs_dimensions + k * ss_dimensions, j * bs_dimensions + l * ss_dimensions, ss_dimensions, ss_dimensions), ss_line_width)
+                        pygame.draw.rect(self.screen, (0, 0, 0),
+                                         (i * bs_dimensions + k * ss_dimensions,
+                                          j * bs_dimensions + l * ss_dimensions,
+                                          ss_dimensions, ss_dimensions), ss_line_width)
 
         # Smaller Squares
         for k in range(3):

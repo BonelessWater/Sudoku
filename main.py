@@ -22,8 +22,8 @@ def main():
 
     screen.fill(background_colour)
 
-    button_width = width // 3
-    button_height = height // 9
+    button_width = screen.get_width() // 3
+    button_height = screen.get_height() // 9
     button_y_location = height - button_height
     
     easyButton = Button("EasyButton.png", 0, button_y_location, button_width, button_height)
@@ -56,6 +56,17 @@ def main():
                     difficulty = 'hard'
                     board = Board(width, height, screen, difficulty)
                     print("Hard button clicked!")
+
+                # Code based on TA help ----
+                elif event.button == 1:
+                    x, y = pygame.mouse.get_pos()
+                    if board.click(x, y) is not None:
+                        x, y = board.click(x, y)
+                        for row in range(9):
+                            for col in range(9):
+                                board.cells[row][col].selected = False
+                        board.cells[x][y].selected = True
+
         if menu:
             easyButton.draw(screen)
             normalButton.draw(screen)

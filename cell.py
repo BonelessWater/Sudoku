@@ -1,5 +1,6 @@
 import pygame
 
+
 class Cell:
 
     def __init__(self, value, row, col, screen):
@@ -20,18 +21,19 @@ class Cell:
     def draw(self):
         bs_dimensions = self.screen.get_width() // 3
         ss_dimensions = bs_dimensions // 3
+        bs_line_width = 3
+        ss_line_width = 1
         cell_width = self.screen.get_width() // 9
         cell_height = self.screen.get_height() // 9
         x = self.col * ss_dimensions
         y = self.row * ss_dimensions
         rect = pygame.Rect(x, y, cell_width, cell_height)
 
-
-        if self.selected:
-            pygame.draw.rect(self.screen, (255, 0, 0), rect, cell_width)
-            # pygame.draw.rect(self.screen, (255, 0, 0), (x, y, cell_width, cell_width), 3)  # Draw red border if selected
-
         if self.value != 0:
             text = self.font.render(str(self.value), True, pygame.Color('black'))
             text_rect = text.get_rect(center=(x + cell_width // 2, y + cell_height // 2))
             self.screen.blit(text, text_rect)
+
+        if self.selected is True :
+            pygame.draw.rect(self.screen, (255, 0, 0), rect, bs_line_width)
+
