@@ -38,4 +38,3 @@ class Cell:
 
         if self.selected is True:
             pygame.draw.rect(self.screen, (255, 0, 0), rect, bs_line_width)
-

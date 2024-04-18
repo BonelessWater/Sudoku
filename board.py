@@ -69,12 +69,10 @@ class Board:
         if self.selected_cell and self.selected_cell.value == 0:
             self.selected_cell.set_cell_value(0)
             self.update_board()
-        pass
 
     def sketch(self, value):
         if self.selected_cell and 0 < value <= 9:
             self.selected_cell.set_sketched_value(value)
-        pass
 
     def place_number(self, value):
         """
