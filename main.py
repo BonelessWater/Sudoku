@@ -50,7 +50,7 @@ def main():
     game_status = menu = True
     background_picture = pygame.image.load('background.jpeg')
     background_picture = pygame.transform.scale(background_picture, (width, height))
-    mainbuffer = pygame.Surface((width, height))
+    mainbuffer = pygame.Surface((width, height));
 
     while game_status:
         mainbuffer.fill((255, 255, 255))
