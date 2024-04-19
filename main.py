@@ -50,7 +50,12 @@ def main():
 
     # Game status will switch to false when the user wins or loses
     game_status = menu = True
+    background_picture = pygame.image.load('background.jpeg')
+    background_picture = pygame.transform.scale(background_picture, (width, height))
+    mainbuffer = pygame.Surface((width, height))
+
     while game_status:
+        mainbuffer.fill((255,255,255))
         for event in pygame.event.get(): 
       
             # Check for QUIT event       
@@ -78,14 +83,33 @@ def main():
                     initial_board = board
                     print("Hard button clicked!")
         
+
         if menu:
-            # Should draw a full menu every time. Until this is done. The restart button will not work properly
-            # Needs designing
+            mainbuffer.blit(background_picture, (0,0))
+            easyButton.draw(mainbuffer)
+            normalButton.draw(mainbuffer)
+            hardButton.draw(mainbuffer)
+            # screen.blit(mainbuffer, (0,0,))
+            width = 700  # in pixels (subject to change)
+            height = 800  # in pixels (subject to change)
+            pygame.display.flip()
+            pygame.display.set_caption('Sudoku')
+            font_type = pygame.font.Font('text.ttf', 32)
+            message_displayed = font_type.render("Welcome to Sudoku!!", True, BLACK)
+            mainbuffer.blit(message_displayed,(190,200))
+            screen.blit(mainbuffer,(0,0))
+
+
+
+            pygame.display.flip()
 
             easyButton.draw(screen)
             normalButton.draw(screen)
             hardButton.draw(screen)
+
+
         else:
+            screen.fill((255,255,255))
 
             restart_button_rect = pygame.Rect(0, button_y_location, button_width, button_height)
             draw_button(screen, GRAY, restart_button_rect.x, restart_button_rect.y, restart_button_rect.width, restart_button_rect.height, "Restart")
@@ -99,7 +123,7 @@ def main():
             board.draw()
 
             last_cell = [-1, -1] # this variable will keep track of selected cell
-            for event in pygame.event.get(): 
+            for event in pygame.event.get():
                 if event.type == pygame.QUIT:
                     game_status = False
                 elif event.type == pygame.MOUSEBUTTONDOWN:
@@ -117,6 +141,9 @@ def main():
                     elif event.type == pygame.MOUSEBUTTONDOWN:
                         x, y = pygame.mouse.get_pos()
                         screen.fill((255, 255, 255))
+
+
+
 
                         # NOTE: THIS IS WHERE WE WILL REPLACE THE BUTTONS WITH RESET, QUIT, ETC.
                         easyButton.draw(screen)
@@ -139,7 +166,6 @@ def main():
         # Update the display using flip 
         pygame.display.flip()
 
-    
 
 if __name__ == "__main__":
     main()
