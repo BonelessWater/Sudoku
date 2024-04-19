@@ -1,7 +1,7 @@
 from cell import Cell
 from sudokugenerator import generate_sudoku
-from cell import Cell
 import pygame
+
 
 class Board:
 
@@ -18,11 +18,9 @@ class Board:
         pygame.font.init()
         self.font = pygame.font.SysFont("arial", 11)
 
-        
-
     def draw(self):
-         # Let bs = big square and let ss = small square
-        bs_dimensions = self.width // 3
+        # Let bs = big square and let ss = small square
+        bs_dimensions = self.screen.get_width() // 3
         ss_dimensions = bs_dimensions // 3
         bs_line_width = 3
         ss_line_width = 1
@@ -35,36 +33,28 @@ class Board:
         # Bigger Squares
         for i in range(3):
             for j in range(3):
-                pygame.draw.rect(self.screen, (0, 0, 0),(i * bs_dimensions, j * bs_dimensions, bs_dimensions, bs_dimensions), bs_line_width)
+                pygame.draw.rect(self.screen, (0, 0, 0),
+                                 (i * bs_dimensions, j * bs_dimensions,
+                                  bs_dimensions, bs_dimensions), bs_line_width)
                 for k in range(3):
                     for l in range(3):
-                        pygame.draw.rect(self.screen, (0, 0, 0), (i * bs_dimensions + k * ss_dimensions, j * bs_dimensions + l * ss_dimensions, ss_dimensions, ss_dimensions), ss_line_width)
-
-
-    def select(self, row, col):
-        self.selected_cell = self.cells[row][col]
-        pass
-
-        for row in range(9):
-            for col in range(9):
-                self.cells[row][col].draw()
+                        pygame.draw.rect(self.screen, (0, 0, 0),
+                                         (i * bs_dimensions + k * ss_dimensions,
+                                          j * bs_dimensions + l * ss_dimensions,
+                                          ss_dimensions, ss_dimensions), ss_line_width)
 
         # Smaller Squares
         for k in range(3):
             for l in range(3):
                 pygame.draw.rect(self.screen, (0, 0, 0), (
-                i * bs_dimensions + k * ss_dimensions,
-                j * bs_dimensions + l * ss_dimensions, ss_dimensions,
-                ss_dimensions), ss_line_width);
+                    i * bs_dimensions + k * ss_dimensions,
+                    j * bs_dimensions + l * ss_dimensions, ss_dimensions,
+                    ss_dimensions), ss_line_width)
 
+            for row in self.cells:
+                for cell in row:
+                    cell.draw()
 
-        for row in self.cells:
-             for cell in row:
-                 cell.draw()
-        # for row in range(9):
-        #     for col in range(9):
-        #         self.cells[row][col].draw()
-        
     def click(self, x, y):
         if 0 <= x < self.width and 0 <= y < self.height:
             row = y // (self.width // 9)
@@ -73,33 +63,14 @@ class Board:
         else:
             return None
 
-
-    def clear(self):
-        if self.selected_cell is not None:
-            row, col = self.selected_cell
-            cell = self.cells[row][col]
-            if cell.value is None:
-                cell.set_cell_value(None)
-            elif cell.sketched_value is not None:
-                cell.set_sketched_value(None)
-
     def clear(self, x, y):
         if self.selected_cell and self.selected_cell.value == 0:
             self.selected_cell.set_cell_value(0)
             self.update_board()
-        pass
-
 
     def sketch(self, value):
-        if self.selected_cell is not None:
-            row, col = self.selected_cell
-            cell = self.cells[row][col]
-            cell.set_sketched_value(None)
-
         if self.selected_cell and 0 < value <= 9:
             self.selected_cell.set_sketched_value(value)
-
-        pass
 
     def place_number(self, value):
         """
@@ -127,7 +98,7 @@ class Board:
                 if cell.value == 0:
                     return False
         return True
-        #Returns a Boolean value indicating whether the board is full or not.
+        # Returns a Boolean value indicating whether the board is full or not.
 
     def update_board(self):
         """
@@ -141,7 +112,7 @@ class Board:
         # for i in range(9):
         #     for j in range(9):
         #         self.cells[i][j].set_cell_value(self.board[i][j])
-        #Updates the underlying 2D board with the values in all cells.
+        # Updates the underlying 2D board with the values in all cells.
 
     def find_empty(self):
         """
@@ -155,8 +126,8 @@ class Board:
                 if cell.value == 0:
                     return (i, j)
         return None
-        #Finds an empty cell and returns its row and col as a tuple (x, y).
-        
+        # Finds an empty cell and returns its row and col as a tuple (x, y).
+
     def check_board(self):
         """Checks if the board is correctly solved."""
         for i in range(9):
