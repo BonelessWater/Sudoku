@@ -1,5 +1,6 @@
 from cell import Cell
 from sudokugenerator import generate_sudoku
+from cell import Cell
 import pygame
 
 class Board:
@@ -44,6 +45,12 @@ class Board:
                                           j * bs_dimensions + l * ss_dimensions,
                                           ss_dimensions, ss_dimensions), ss_line_width)
 
+
+
+        for row in range(9):
+            for col in range(9):
+                self.cells[row][col].draw()
+
         # Smaller Squares
         for k in range(3):
             for l in range(3):
@@ -55,8 +62,7 @@ class Board:
             for row in self.cells:
                 for cell in row:
                     cell.draw()
-
-
+                    
     def click(self, x, y):
         if 0 <= x < self.width and 0 <= y < self.height:
             row = y // (self.width // 9)
@@ -65,6 +71,18 @@ class Board:
             return row, col
         else:
             return None
+
+    def select(self, row, col):
+        self.selected_cell = self.cells[row][col]
+
+    def clear(self):
+        if self.selected_cell is not None:
+            row, col = self.selected_cell
+            cell = self.cells[row][col]
+            if cell.value is None:
+                cell.set_cell_value(None)
+            elif cell.sketched_value is not None:
+                cell.set_sketched_value(None)
 
     def clear(self, x, y):
         if self.selected_cell and self.selected_cell.value == 0:
