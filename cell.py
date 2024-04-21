@@ -5,6 +5,7 @@ class Cell:
 
     def __init__(self, value, row, col, screen):
         self.value = value
+        self.sketched_value = 0
         self.row = row
         self.col = col
         self.screen = screen
@@ -30,6 +31,10 @@ class Cell:
         rect = pygame.Rect(x, y, cell_width, cell_height)
 
 
+        if self.sketched_value != 0:
+            text = self.font.render(str(self.sketched_value), True, pygame.Color('grey'))
+            text_rect = text.get_rect(center=(x + cell_width // 2, y + cell_height // 2))
+            self.screen.blit(text, text_rect)
         if self.value != 0:
             text = self.font.render(str(self.value), True, pygame.Color('black'))
             text_rect = text.get_rect(center=(x + cell_width // 2, y + cell_height // 2))

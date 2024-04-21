@@ -1,6 +1,4 @@
-# Import new files here
-from sudokugenerator import SudokuGenerator
-from cell import Cell
+# Import new files here 
 from board import Board
 from button import Button
 
@@ -24,6 +22,18 @@ def draw_button(surface, color, x, y, width, height, text, text_color=BLACK):
 
 def main():
     
+    key_presses = {
+        pygame.K_1: 1,
+        pygame.K_2: 2,
+        pygame.K_3: 3,
+        pygame.K_4: 4,
+        pygame.K_5: 5,
+        pygame.K_6: 6,
+        pygame.K_7: 7,
+        pygame.K_8: 8,
+        pygame.K_9: 9,
+    }
+
     # CONSTANTS: 
     background_colour = (255, 255, 255) 
 
@@ -42,11 +52,6 @@ def main():
     easyButton = Button("EasyButton.png", 0, button_y_location, button_width, button_height)
     normalButton = Button("NormalButton.png", button_width, button_y_location, button_width, button_height)
     hardButton = Button("HardButton.png", 2 * button_width, button_y_location, button_width, button_height)
-
-    resetButton = Button("EasyButton.png", 0, button_y_location, button_width, button_height)
-    restartButton = Button("NormalButton.png", button_width, button_y_location, button_width, button_height)
-    quitButton = Button("HardButton.png", 2 * button_width, button_y_location, button_width, button_height)
-
 
     # Game status will switch to false when the user wins or loses
     game_status = menu = True
@@ -86,7 +91,7 @@ def main():
             normalButton.draw(screen)
             hardButton.draw(screen)
         else:
-
+            
             restart_button_rect = pygame.Rect(0, button_y_location, button_width, button_height)
             draw_button(screen, GRAY, restart_button_rect.x, restart_button_rect.y, restart_button_rect.width, restart_button_rect.height, "Restart")
             
@@ -108,6 +113,7 @@ def main():
                     if restart_button_rect.collidepoint(mouse_pos):
                         print("Restart button clicked!")
                         menu = True
+                        screen.fill(WHITE)
                     elif reset_button_rect.collidepoint(mouse_pos):
                         print("Reset button clicked!")
                         board = initial_board
@@ -132,13 +138,19 @@ def main():
                             mouse_row, mouse_col = board.click(x, y) # board.click() returns the row and col of a click
                             board.cells[mouse_row][mouse_col].selected = True
 
+                elif event.type == pygame.KEYDOWN:
+                    if event.key in key_presses:
+                        board.sketch(key_presses[event.key])
+                    elif event.key == pygame.K_RETURN:
+                        print(board.selected_cell.sketched_value)
+                        board.place_number(board.selected_cell.sketched_value)
+
             # Add additional buttons here:
 
             # These buttons should change the value of Menu to False or close the game
 
         # Update the display using flip 
         pygame.display.flip()
-
     
 
 if __name__ == "__main__":

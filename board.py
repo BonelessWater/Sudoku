@@ -9,7 +9,7 @@ class Board:
         self.height = height
         self.screen = screen
         self.difficulty = difficulty
-        self.generator = generate_sudoku(9, {'easy': 30, 'medium': 40, 'hard': 50}[difficulty])
+        self.initial_board, self.generator = generate_sudoku(9, {'easy': 30, 'medium': 40, 'hard': 50}[difficulty])
         self.cells = [[Cell(self.generator[i][j], i, j, screen) for j in range(9)] for i in range(9)]
         self.selected_cell = None
 
@@ -61,6 +61,7 @@ class Board:
         if 0 <= x < self.width and 0 <= y < self.height:
             row = y // (self.width // 9)
             col = x // (self.width // 9)
+            self.selected_cell = self.cells[row][col]
             return row, col
         else:
             return None
@@ -71,8 +72,8 @@ class Board:
             self.update_board()
 
     def sketch(self, value):
-        if self.selected_cell and 0 < value <= 9:
-            self.selected_cell.set_sketched_value(value)
+        self.selected_cell.set_sketched_value(value)
+        print(self.selected_cell.sketched_value)
 
     def place_number(self, value):
         """
@@ -83,10 +84,47 @@ class Board:
             value (int): The value to be placed in the selected cell.
 
             """
-        if self.selected_cell and self.selected_cell.value == 0:
-            if self.generator.is_valid(self.selected_cell.row, self.selected_cell.col, value):
-                self.selected_cell.set_cell_value(value)
-                self.update_board()
+        # if self.selected_cell.sketched_value != 0:
+        #     numbers = [i for i in range(1, 10)]
+            
+        #     # Check row
+        #     temp_list = []
+        #     temp_list = self.generator[self.selected_cell.row]
+
+        #     if list(set(temp_list)) == numbers:
+        #         row_value = True
+        #     else:
+        #         row_value = False
+
+        #     # Check col
+        #     temp_list = []
+        #     for i in range(9):
+        #         temp_list.append(self.generator[i][self.selected_cell.col])
+        #     if list(set(temp_list)) == numbers:
+        #         col_value = True 
+        #     else:
+        #         col_value = False
+            
+
+        #     # Check box
+        #     temp_list = []
+        #     row_start = (self.selected_cell.row // 3) * 3
+        #     col_start = (self.selected_cell.col // 3) * 3
+        
+        #     for row in range(3):
+        #         for col in range(3):
+        #             temp_list.append(self.generator[row + row_start][col + col_start])
+        #     if list(set(temp_list)) == numbers:
+        #         box_value = True 
+        #     else:
+        #         box_value = False
+
+        #     print(col_value, row_value, box_value)
+        print(self.initial_board[self.selected_cell.row][self.selected_cell.col], self.selected_cell.sketched_value)
+        if self.initial_board[self.selected_cell.row][self.selected_cell.col] == self.selected_cell.sketched_value:
+            
+            self.selected_cell.set_cell_value(value)
+            self.update_board()
 
     def is_full(self):
         """
@@ -148,3 +186,5 @@ class Board:
         return len(set(group)) == 9 and all(group)
         # filtered = [num for num in group if num != 0]
         # return len(filtered) == 9 and len(set(filtered)) == 9
+
+    
