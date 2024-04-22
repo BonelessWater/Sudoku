@@ -1,6 +1,4 @@
-# Import new files here
-from sudokugenerator import SudokuGenerator
-from cell import Cell
+# Import new files here 
 from board import Board
 from button import Button
 
@@ -26,6 +24,19 @@ def draw_button(surface, color, x, y, width, height, text, text_color=BLACK):
 
 
 def main():
+    
+    key_presses = {
+        pygame.K_1: 1,
+        pygame.K_2: 2,
+        pygame.K_3: 3,
+        pygame.K_4: 4,
+        pygame.K_5: 5,
+        pygame.K_6: 6,
+        pygame.K_7: 7,
+        pygame.K_8: 8,
+        pygame.K_9: 9,
+    }
+
     # CONSTANTS: 
     pygame.init()
     background_colour = (255, 255, 255)
@@ -46,11 +57,6 @@ def main():
     normalButton = Button("NormalButton.png", button_width, button_y_location, button_width, button_height)
     hardButton = Button("HardButton.png", 2 * button_width, button_y_location, button_width, button_height)
 
-    resetButton = Button("EasyButton.png", 0, button_y_location, button_width, button_height)
-    restartButton = Button("NormalButton.png", button_width, button_y_location, button_width, button_height)
-    quitButton = Button("HardButton.png", 2 * button_width, button_y_location, button_width, button_height)
-
-
     # Game status will switch to false when the user wins or loses
     game_status = menu = True
     main_background_picture = pygame.image.load('background.jpeg')
@@ -70,6 +76,7 @@ def main():
                     difficulty = 'easy'
                     board = Board(width, height, screen, difficulty)
                     initial_board = board
+                    initial_board_nums = board.generator
                     print("Easy button clicked!")
                     board.draw()
                 elif normalButton.is_clicked(mouse_pos) and menu:
@@ -77,12 +84,14 @@ def main():
                     difficulty = 'medium'
                     board = Board(width, height, screen, difficulty)
                     initial_board = board
+                    initial_board_nums = board.generator
                     print("Normal button clicked!")
                 elif hardButton.is_clicked(mouse_pos) and menu:
                     menu = False
                     difficulty = 'hard'
                     board = Board(width, height, screen, difficulty)
                     initial_board = board
+                    initial_board_nums = board.generator
                     print("Hard button clicked!")
 
         if menu:
@@ -113,6 +122,7 @@ def main():
 
             screen.fill((255,255,255))
 
+            
             restart_button_rect = pygame.Rect(0, button_y_location, button_width, button_height)
             draw_button(screen, GRAY, restart_button_rect.x, restart_button_rect.y, restart_button_rect.width, restart_button_rect.height, "Restart")
 
@@ -123,8 +133,8 @@ def main():
             draw_button(screen, GRAY, quit_button_rect.x, quit_button_rect.y, quit_button_rect.width, quit_button_rect.height, "Quit")
 
             board.draw()
-            
-            for event in pygame.event.get():
+
+            for event in pygame.event.get(): 
                 if event.type == pygame.QUIT:
                     game_status = False
                 elif event.type == pygame.MOUSEBUTTONDOWN:
@@ -133,9 +143,15 @@ def main():
                     if restart_button_rect.collidepoint(mouse_pos):
                         print("Restart button clicked!")
                         menu = True
+                        screen.fill(WHITE)
                     elif reset_button_rect.collidepoint(mouse_pos):
                         print("Reset button clicked!")
-                        board = initial_board
+                        for row in range(9):
+                            for col in range(9):
+                                board.cells[row][col].set_cell_value(initial_board_nums[row][col])
+                                if initial_board_nums[row][col] == 0:
+                                    board.cells[row][col].set_sketched_value(0)
+                        board.draw()
                     elif quit_button_rect.collidepoint(mouse_pos):
                         print("Quit button clicked!")
                         game_status = False
@@ -143,54 +159,54 @@ def main():
                         x, y = pygame.mouse.get_pos()
                         screen.fill((255, 255, 255))
 
-
-                        # NOTE: THIS IS WHERE WE WILL REPLACE THE BUTTONS WITH RESET, QUIT, ETC.
-
                         if board.click(x, y) is not None:
-                            if board.click(x, y) is not None:
-                                x, y = board.click(x, y)
-                                for row in range(9):
-                                    for col in range(9):
-                                        if (row, col) != (x, y):
-                                            board.cells[row][col].selected = False
-                                    board.cells[x][y].selected = True
-                                board.draw()
+                            mouse_row, mouse_col = board.click(x, y)
+                            for row in range(9):
+                                for col in range(9):
+                                    if (row, col) != (mouse_row, mouse_col):
+                                        board.cells[row][col].selected = False
+                            if initial_board_nums[mouse_row][mouse_col] == 0:
+                                board.cells[mouse_row][mouse_col].selected = True
+                            board.draw()
 
-                        if board.is_full() and board.check_board():
-                            game_won = pygame.image.load('wongame.jpg')
-                            game_won = pygame.transform.scale(game_won, (width, height))
-                            screen.blit(game_won, (0,0))
-                            pygame.display.set_caption('Game won!')
-                            pygame.display.flip()
-                            font_type = pygame.font.Font('text.ttf', 50)
-                            message_displayed = font_type.render("Game Won!", True, BLACK)
-                            screen.blit(message_displayed, (210,380))
-                            pygame.display.flip()
-                            print("Game won!")
-
-
-
-                        elif board.is_full() and not board.check_board():
-                            game_lost = pygame.image.load('background.jpeg')
-                            game_lost = pygame.transform.scale(game_lost, (width, height))
-                            screen.blit(game_lost, (0,0))
-                            pygame.display.set_caption('Game lost :(')
-                            pygame.display.flip()
-                            font_type = pygame.font.Font('text.ttf', 50)
-                            message_displayed = font_type.render("Game Lost :(", True, BLACK)
-                            screen.blit(message_displayed, (190,120))
-                            pygame.display.flip()
-                            print("Game Lost!")
+                    if board.is_full() and board.check_board():
+                        game_won = pygame.image.load('wongame.jpg')
+                        game_won = pygame.transform.scale(game_won, (width, height))
+                        screen.blit(game_won, (0,0))
+                        pygame.display.set_caption('Game won!')
+                        pygame.display.flip()
+                        font_type = pygame.font.Font('text.ttf', 50)
+                        message_displayed = font_type.render("Game Won!", True, BLACK)
+                        screen.blit(message_displayed, (210,380))
+                        pygame.display.flip()
+                        print("Game won!")
 
 
 
-            # Add additional buttons here:
+                    elif board.is_full() and not board.check_board():
+                        game_lost = pygame.image.load('background.jpeg')
+                        game_lost = pygame.transform.scale(game_lost, (width, height))
+                        screen.blit(game_lost, (0,0))
+                        pygame.display.set_caption('Game lost :(')
+                        pygame.display.flip()
+                        font_type = pygame.font.Font('text.ttf', 50)
+                        message_displayed = font_type.render("Game Lost :(", True, BLACK)
+                        screen.blit(message_displayed, (190,120))
+                        pygame.display.flip()
+                        print("Game Lost!")    
 
-            # These buttons should change the value of Menu to False or close the game
+                elif event.type == pygame.KEYDOWN:
+                    if event.key in key_presses:
+                        board.sketch(key_presses[event.key])
+                    elif event.key == pygame.K_RETURN:
+                        print(board.selected_cell.sketched_value)
+                        board.place_number(board.selected_cell.sketched_value)
+
+            
+
 
         # Update the display using flip 
         pygame.display.flip()
-
 
 if __name__ == "__main__":
     main()

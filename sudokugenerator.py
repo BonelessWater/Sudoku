@@ -1,6 +1,9 @@
-import math, random
+import random
+
+
 """
-This was adapted from a GeeksforGeeks article "Program for Sudoku Generator" by Aarti_Rathi and Ankur Trisal
+This was adapted from a GeeksforGeeks article "
+Program for Sudoku Generator" by Aarti_Rathi and Ankur Trisal
 https://www.geeksforgeeks.org/program-sudoku-generator/
 
 """
@@ -222,7 +225,6 @@ class SudokuGenerator:
             row = numbers[i] // 9
 
             self.board[row][col] = 0
-
 
 '''
 DO NOT CHANGE
