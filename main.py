@@ -68,6 +68,7 @@ def main():
                     difficulty = 'easy'
                     board = Board(width, height, screen, difficulty)
                     initial_board = board
+                    initial_board_nums = board.generator
                     print("Easy button clicked!")
                     board.draw()
                 elif normalButton.is_clicked(mouse_pos) and menu:
@@ -75,12 +76,14 @@ def main():
                     difficulty = 'medium'
                     board = Board(width, height, screen, difficulty)
                     initial_board = board
+                    initial_board_nums = board.generator
                     print("Normal button clicked!")
                 elif hardButton.is_clicked(mouse_pos) and menu:
                     menu = False
                     difficulty = 'hard'
                     board = Board(width, height, screen, difficulty)
                     initial_board = board
+                    initial_board_nums = board.generator
                     print("Hard button clicked!")
         
         if menu:
@@ -103,7 +106,6 @@ def main():
             
             board.draw()
 
-            last_cell = [-1, -1] # this variable will keep track of selected cell
             for event in pygame.event.get(): 
                 if event.type == pygame.QUIT:
                     game_status = False
@@ -124,16 +126,15 @@ def main():
                         x, y = pygame.mouse.get_pos()
                         screen.fill((255, 255, 255))
 
-                        # NOTE: THIS IS WHERE WE WILL REPLACE THE BUTTONS WITH RESET, QUIT, ETC.
                         if board.click(x, y) is not None:
-                            if board.click(x, y) is not None:
-                                mouse_row, mouse_col = board.click(x, y)
-                                for row in range(9):
-                                    for col in range(9):
-                                        if (row, col) != (mouse_row, mouse_col):
-                                            board.cells[row][col].selected = False
-                                    board.cells[mouse_row][mouse_col].selected = True
-                                board.draw()
+                            mouse_row, mouse_col = board.click(x, y)
+                            for row in range(9):
+                                for col in range(9):
+                                    if (row, col) != (mouse_row, mouse_col):
+                                        board.cells[row][col].selected = False
+                            if initial_board_nums[mouse_row][mouse_col] == 0:
+                                board.cells[mouse_row][mouse_col].selected = True
+                            board.draw()
 
                 elif event.type == pygame.KEYDOWN:
                     if event.key in key_presses:
@@ -160,14 +161,32 @@ def main():
 
 
             if board.is_full() and board.check_board():
-                print("win")
-                game_status = False
+                image_path = "game_win.jpg"  # Change this to your image file path
+                original_image = pygame.image.load(image_path)
+
+                # Resize image
+                original_width, original_height = original_image.get_size()
+                aspect_ratio = original_width / original_height
+                new_width = int(height * aspect_ratio)
+                new_height = height
+                resized_image = pygame.transform.scale(original_image, (new_width, new_height))
+                image_rect = resized_image.get_rect(center=(width // 2, height // 2))
+                screen.blit(resized_image, image_rect)
                 #SHOW GAME WIN SCREEN
 
 
             elif board.is_full() and not board.check_board():
-                print("loser")
-                game_status = False
+                image_path = "game_over.png"  # Change this to your image file path
+                original_image = pygame.image.load(image_path)
+
+                # Resize image
+                original_width, original_height = original_image.get_size()
+                aspect_ratio = original_width / original_height
+                new_width = int(height * aspect_ratio)
+                new_height = height
+                resized_image = pygame.transform.scale(original_image, (new_width, new_height))
+                image_rect = resized_image.get_rect(center=(width // 2, height // 2))
+                screen.blit(resized_image, image_rect)
                 #SHOW GAME WIN SCREEN
 
 

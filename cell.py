@@ -13,11 +13,13 @@ class Cell:
         self.selected = False
 
     def set_cell_value(self, value):
-        self.value = value
+        if self.selected:
+            self.value = value
 
 
     def set_sketched_value(self, value):
-        self.sketched_value = value
+        if self.selected:
+            self.sketched_value = value
     
     def draw(self):
         bs_dimensions = self.screen.get_width() // 3
