@@ -1,6 +1,5 @@
 from cell import Cell
 from sudokugenerator import generate_sudoku
-from cell import Cell
 import pygame
 
 class Board:
@@ -10,7 +9,7 @@ class Board:
         self.height = height
         self.screen = screen
         self.difficulty = difficulty
-        self.generator = generate_sudoku(9, {'easy': 30, 'medium': 40, 'hard': 50}[difficulty])
+        self.generator = generate_sudoku(9, {'easy': 1, 'medium': 40, 'hard': 50}[difficulty])
         self.cells = [[Cell(self.generator[i][j], i, j, screen) for j in range(9)] for i in range(9)]
         self.selected_cell = None
 

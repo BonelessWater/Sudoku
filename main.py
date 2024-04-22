@@ -12,6 +12,8 @@ WHITE = (255, 255, 255)
 BLACK = (0, 0, 0)
 font = pygame.font.Font(None, 36)
 GRAY = (200, 200, 200)
+width = 700
+height = 800
 
 def draw_button(surface, color, x, y, width, height, text, text_color=BLACK):
     
@@ -19,6 +21,7 @@ def draw_button(surface, color, x, y, width, height, text, text_color=BLACK):
     text_surface = font.render(text, True, text_color)
     text_rect = text_surface.get_rect(center=(x + width / 2, y + height / 2))
     surface.blit(text_surface, text_rect)
+
 
 def main():
     
@@ -35,7 +38,8 @@ def main():
     }
 
     # CONSTANTS: 
-    background_colour = (255, 255, 255) 
+    pygame.init()
+    background_colour = (255, 255, 255)
 
     width = 700  # in pixels (subject to change)
     height = 800  # in pixels (subject to change)
@@ -55,7 +59,11 @@ def main():
 
     # Game status will switch to false when the user wins or loses
     game_status = menu = True
+    main_background_picture = pygame.image.load('background.jpeg')
+    main_background_picture = pygame.transform.scale(main_background_picture, (width, height))
+    mainbuffer = pygame.Surface((width, height))
     while game_status:
+        mainbuffer.fill((255,255,255))
         for event in pygame.event.get(): 
       
             # Check for QUIT event       
@@ -85,25 +93,45 @@ def main():
                     initial_board = board
                     initial_board_nums = board.generator
                     print("Hard button clicked!")
-        
+
         if menu:
-            # Should draw a full menu every time. Until this is done. The restart button will not work properly
-            # Needs designing
+            mainbuffer.blit(main_background_picture, (0,0))
+            easyButton.draw(mainbuffer)
+            normalButton.draw(mainbuffer)
+            hardButton.draw(mainbuffer)
+            # screen.blit(mainbuffer, (0,0,))
+            width = 700  # in pixels (subject to change)
+            height = 800  # in pixels (subject to change)
+            pygame.display.flip()
+            pygame.display.set_caption('Sudoku')
+            font_type = pygame.font.Font('text.ttf', 32)
+            message_displayed = font_type.render("Welcome to Sudoku!!", True, BLACK)
+            mainbuffer.blit(message_displayed,(190,200))
+            screen.blit(mainbuffer,(0,0))
+
+
+
+            pygame.display.flip()
 
             easyButton.draw(screen)
             normalButton.draw(screen)
             hardButton.draw(screen)
+
+
         else:
+
+            screen.fill((255,255,255))
+
             
             restart_button_rect = pygame.Rect(0, button_y_location, button_width, button_height)
             draw_button(screen, GRAY, restart_button_rect.x, restart_button_rect.y, restart_button_rect.width, restart_button_rect.height, "Restart")
-            
+
             reset_button_rect = pygame.Rect(button_width, button_y_location, button_width, button_height)
             draw_button(screen, GRAY, reset_button_rect.x, reset_button_rect.y, reset_button_rect.width, reset_button_rect.height, "Reset")
-            
+
             quit_button_rect = pygame.Rect(2 * button_width, button_y_location, button_width, button_height)
             draw_button(screen, GRAY, quit_button_rect.x, quit_button_rect.y, quit_button_rect.width, quit_button_rect.height, "Quit")
-            
+
             board.draw()
 
             for event in pygame.event.get(): 
@@ -141,6 +169,32 @@ def main():
                                 board.cells[mouse_row][mouse_col].selected = True
                             board.draw()
 
+                    if board.is_full() and board.check_board():
+                        game_won = pygame.image.load('wongame.jpg')
+                        game_won = pygame.transform.scale(game_won, (width, height))
+                        screen.blit(game_won, (0,0))
+                        pygame.display.set_caption('Game won!')
+                        pygame.display.flip()
+                        font_type = pygame.font.Font('text.ttf', 50)
+                        message_displayed = font_type.render("Game Won!", True, BLACK)
+                        screen.blit(message_displayed, (210,380))
+                        pygame.display.flip()
+                        print("Game won!")
+
+
+
+                    elif board.is_full() and not board.check_board():
+                        game_lost = pygame.image.load('background.jpeg')
+                        game_lost = pygame.transform.scale(game_lost, (width, height))
+                        screen.blit(game_lost, (0,0))
+                        pygame.display.set_caption('Game lost :(')
+                        pygame.display.flip()
+                        font_type = pygame.font.Font('text.ttf', 50)
+                        message_displayed = font_type.render("Game Lost :(", True, BLACK)
+                        screen.blit(message_displayed, (190,120))
+                        pygame.display.flip()
+                        print("Game Lost!")    
+
                 elif event.type == pygame.KEYDOWN:
                     if event.key in key_presses:
                         board.sketch(key_presses[event.key])
@@ -148,33 +202,7 @@ def main():
                         print(board.selected_cell.sketched_value)
                         board.place_number(board.selected_cell.sketched_value)
 
-            if board.is_full() and board.check_board():
-                image_path = "game_win.jpg"  # Change this to your image file path
-                original_image = pygame.image.load(image_path)
-
-                # Resize image
-                original_width, original_height = original_image.get_size()
-                aspect_ratio = original_width / original_height
-                new_width = int(height * aspect_ratio)
-                new_height = height
-                resized_image = pygame.transform.scale(original_image, (new_width, new_height))
-                image_rect = resized_image.get_rect(center=(width // 2, height // 2))
-                screen.blit(resized_image, image_rect)
-                #SHOW GAME WIN SCREEN
-
-            elif board.is_full() and not board.check_board():
-                image_path = "game_over.png"  # Change this to your image file path
-                original_image = pygame.image.load(image_path)
-
-                # Resize image
-                original_width, original_height = original_image.get_size()
-                aspect_ratio = original_width / original_height
-                new_width = int(height * aspect_ratio)
-                new_height = height
-                resized_image = pygame.transform.scale(original_image, (new_width, new_height))
-                image_rect = resized_image.get_rect(center=(width // 2, height // 2))
-                screen.blit(resized_image, image_rect)
-                #SHOW GAME WIN SCREEN
+            
 
 
         # Update the display using flip 
