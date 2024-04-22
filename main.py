@@ -127,12 +127,12 @@ def main():
                         # NOTE: THIS IS WHERE WE WILL REPLACE THE BUTTONS WITH RESET, QUIT, ETC.
                         if board.click(x, y) is not None:
                             if board.click(x, y) is not None:
-                                x, y = board.click(x, y)
+                                mouse_row, mouse_col = board.click(x, y)
                                 for row in range(9):
                                     for col in range(9):
-                                        if (row, col) != (x, y):
+                                        if (row, col) != (mouse_row, mouse_col):
                                             board.cells[row][col].selected = False
-                                    board.cells[x][y].selected = True
+                                    board.cells[mouse_row][mouse_col].selected = True
                                 board.draw()
 
                 elif event.type == pygame.KEYDOWN:
@@ -141,14 +141,38 @@ def main():
                     elif event.key == pygame.K_RETURN:
                         print(board.selected_cell.sketched_value)
                         board.place_number(board.selected_cell.sketched_value)
+                    elif event.key == pygame.K_UP:
+                        board.cells[mouse_row][mouse_col].selected = False
+                        mouse_row -= 1
+                        board.cells[mouse_row][mouse_col].selected = True
+                    elif event.key == pygame.K_DOWN:
+                        board.cells[mouse_row][mouse_col].selected = False
+                        mouse_row += 1
+                        board.cells[mouse_row][mouse_col].selected = True
+                    elif event.key == pygame.K_LEFT:
+                        board.cells[mouse_row][mouse_col].selected = False
+                        mouse_col -= 1
+                        board.cells[mouse_row][mouse_col].selected = True
+                    elif event.key == pygame.K_RIGHT:
+                        board.cells[mouse_row][mouse_col].selected = False
+                        mouse_col += 1
+                        board.cells[mouse_row][mouse_col].selected = True
 
-            # Add additional buttons here:
 
-            # These buttons should change the value of Menu to False or close the game
+            if board.is_full() and board.check_board():
+                print("win")
+                game_status = False
+                #SHOW GAME WIN SCREEN
+
+
+            elif board.is_full() and not board.check_board():
+                print("loser")
+                game_status = False
+                #SHOW GAME WIN SCREEN
+
 
         # Update the display using flip 
         pygame.display.flip()
-    
 
 if __name__ == "__main__":
     main()

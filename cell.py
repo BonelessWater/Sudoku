@@ -40,7 +40,5 @@ class Cell:
             text_rect = text.get_rect(center=(x + cell_width // 2, y + cell_height // 2))
             self.screen.blit(text, text_rect)
 
-
-
         if self.selected is True:
             pygame.draw.rect(self.screen, (255, 0, 0), rect, bs_line_width)

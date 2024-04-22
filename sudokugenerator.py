@@ -1,5 +1,5 @@
-import math, random
-import copy
+import random
+
 
 """
 This was adapted from a GeeksforGeeks article "
@@ -226,7 +226,6 @@ class SudokuGenerator:
 
             self.board[row][col] = 0
 
-
 '''
 DO NOT CHANGE
 Provided for students
@@ -246,7 +245,6 @@ def generate_sudoku(size, removed):
     sudoku = SudokuGenerator(size, removed)
     sudoku.fill_values()
     board = sudoku.get_board()
-    initial_board = copy.deepcopy(board)
     sudoku.remove_cells()
     board = sudoku.get_board()
-    return initial_board, board
+    return board
