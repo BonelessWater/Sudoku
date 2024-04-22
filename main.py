@@ -102,26 +102,39 @@ def main():
             # screen.blit(mainbuffer, (0,0,))
             width = 700  # in pixels (subject to change)
             height = 800  # in pixels (subject to change)
-            pygame.display.flip()
             pygame.display.set_caption('Sudoku')
             font_type = pygame.font.Font('text.ttf', 32)
             message_displayed = font_type.render("Welcome to Sudoku!!", True, BLACK)
             mainbuffer.blit(message_displayed,(190,200))
             screen.blit(mainbuffer,(0,0))
 
-
-
-            pygame.display.flip()
-
             easyButton.draw(screen)
             normalButton.draw(screen)
             hardButton.draw(screen)
-
 
         else:
 
             screen.fill((255,255,255))
 
+            board.draw()
+
+            if board.is_full() and board.check_board():
+                game_won = pygame.image.load('wongame.jpg')
+                game_won = pygame.transform.scale(game_won, (width, height))
+                screen.blit(game_won, (0,0))
+                pygame.display.set_caption('Game won!')
+                font_type = pygame.font.Font('text.ttf', 50)
+                message_displayed = font_type.render("Game Won!", True, BLACK)
+                screen.blit(message_displayed, (210,380))
+
+            elif board.is_full() and not board.check_board():
+                game_lost = pygame.image.load('background.jpeg')
+                game_lost = pygame.transform.scale(game_lost, (width, height))
+                screen.blit(game_lost, (0,0))
+                pygame.display.set_caption('Game lost :(')
+                font_type = pygame.font.Font('text.ttf', 50)
+                message_displayed = font_type.render("Game Lost :(", True, BLACK)
+                screen.blit(message_displayed, (190,120))
             
             restart_button_rect = pygame.Rect(0, button_y_location, button_width, button_height)
             draw_button(screen, GRAY, restart_button_rect.x, restart_button_rect.y, restart_button_rect.width, restart_button_rect.height, "Restart")
@@ -131,8 +144,6 @@ def main():
 
             quit_button_rect = pygame.Rect(2 * button_width, button_y_location, button_width, button_height)
             draw_button(screen, GRAY, quit_button_rect.x, quit_button_rect.y, quit_button_rect.width, quit_button_rect.height, "Quit")
-
-            board.draw()
 
             for event in pygame.event.get(): 
                 if event.type == pygame.QUIT:
@@ -167,33 +178,7 @@ def main():
                                         board.cells[row][col].selected = False
                             if initial_board_nums[mouse_row][mouse_col] == 0:
                                 board.cells[mouse_row][mouse_col].selected = True
-                            board.draw()
-
-                    if board.is_full() and board.check_board():
-                        game_won = pygame.image.load('wongame.jpg')
-                        game_won = pygame.transform.scale(game_won, (width, height))
-                        screen.blit(game_won, (0,0))
-                        pygame.display.set_caption('Game won!')
-                        pygame.display.flip()
-                        font_type = pygame.font.Font('text.ttf', 50)
-                        message_displayed = font_type.render("Game Won!", True, BLACK)
-                        screen.blit(message_displayed, (210,380))
-                        pygame.display.flip()
-                        print("Game won!")
-
-
-
-                    elif board.is_full() and not board.check_board():
-                        game_lost = pygame.image.load('background.jpeg')
-                        game_lost = pygame.transform.scale(game_lost, (width, height))
-                        screen.blit(game_lost, (0,0))
-                        pygame.display.set_caption('Game lost :(')
-                        pygame.display.flip()
-                        font_type = pygame.font.Font('text.ttf', 50)
-                        message_displayed = font_type.render("Game Lost :(", True, BLACK)
-                        screen.blit(message_displayed, (190,120))
-                        pygame.display.flip()
-                        print("Game Lost!")    
+                            board.draw()   
 
                 elif event.type == pygame.KEYDOWN:
                     if event.key in key_presses:
@@ -201,9 +186,6 @@ def main():
                     elif event.key == pygame.K_RETURN:
                         print(board.selected_cell.sketched_value)
                         board.place_number(board.selected_cell.sketched_value)
-
-            
-
 
         # Update the display using flip 
         pygame.display.flip()
