@@ -118,7 +118,12 @@ def main():
                         screen.fill(WHITE)
                     elif reset_button_rect.collidepoint(mouse_pos):
                         print("Reset button clicked!")
-                        board = initial_board
+                        for row in range(9):
+                            for col in range(9):
+                                board.cells[row][col].set_cell_value(initial_board_nums[row][col])
+                                if initial_board_nums[row][col] == 0:
+                                    board.cells[row][col].set_sketched_value(0)
+                        board.draw()
                     elif quit_button_rect.collidepoint(mouse_pos):
                         print("Quit button clicked!")
                         game_status = False
@@ -142,23 +147,6 @@ def main():
                     elif event.key == pygame.K_RETURN:
                         print(board.selected_cell.sketched_value)
                         board.place_number(board.selected_cell.sketched_value)
-                    elif event.key == pygame.K_UP:
-                        board.cells[mouse_row][mouse_col].selected = False
-                        mouse_row -= 1
-                        board.cells[mouse_row][mouse_col].selected = True
-                    elif event.key == pygame.K_DOWN:
-                        board.cells[mouse_row][mouse_col].selected = False
-                        mouse_row += 1
-                        board.cells[mouse_row][mouse_col].selected = True
-                    elif event.key == pygame.K_LEFT:
-                        board.cells[mouse_row][mouse_col].selected = False
-                        mouse_col -= 1
-                        board.cells[mouse_row][mouse_col].selected = True
-                    elif event.key == pygame.K_RIGHT:
-                        board.cells[mouse_row][mouse_col].selected = False
-                        mouse_col += 1
-                        board.cells[mouse_row][mouse_col].selected = True
-
 
             if board.is_full() and board.check_board():
                 image_path = "game_win.jpg"  # Change this to your image file path
@@ -173,7 +161,6 @@ def main():
                 image_rect = resized_image.get_rect(center=(width // 2, height // 2))
                 screen.blit(resized_image, image_rect)
                 #SHOW GAME WIN SCREEN
-
 
             elif board.is_full() and not board.check_board():
                 image_path = "game_over.png"  # Change this to your image file path

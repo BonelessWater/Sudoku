@@ -84,7 +84,7 @@ class Board:
             elif cell.sketched_value is not None:
                 cell.set_sketched_value(None)
 
-    def clear(self, x, y):
+    def clear(self):
         if self.selected_cell and self.selected_cell.value == 0:
             self.selected_cell.set_cell_value(0)
             self.update_board()
