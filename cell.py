@@ -33,12 +33,13 @@ class Cell:
 
         if self.sketched_value != 0:
             text = self.font.render(str(self.sketched_value), True, pygame.Color('grey'))
-            text_rect = text.get_rect(center=(x + cell_width // 2, y + cell_height // 2))
+            text_rect = text.get_rect(topleft=(x + 5, y + 5))
             self.screen.blit(text, text_rect)
         if self.value != 0:
             text = self.font.render(str(self.value), True, pygame.Color('black'))
             text_rect = text.get_rect(center=(x + cell_width // 2, y + cell_height // 2))
             self.screen.blit(text, text_rect)
+
 
 
         if self.selected is True:

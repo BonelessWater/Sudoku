@@ -125,18 +125,15 @@ def main():
                         screen.fill((255, 255, 255))
 
                         # NOTE: THIS IS WHERE WE WILL REPLACE THE BUTTONS WITH RESET, QUIT, ETC.
-                        easyButton.draw(screen)
-                        normalButton.draw(screen)
-                        hardButton.draw(screen)
-
                         if board.click(x, y) is not None:
-
-                            # Cover over the last selected cell:
-                            if last_cell != [-1,-1]:
-                                board.cells[last_cell[0]][last_cell[1]].selected = False 
-
-                            mouse_row, mouse_col = board.click(x, y) # board.click() returns the row and col of a click
-                            board.cells[mouse_row][mouse_col].selected = True
+                            if board.click(x, y) is not None:
+                                x, y = board.click(x, y)
+                                for row in range(9):
+                                    for col in range(9):
+                                        if (row, col) != (x, y):
+                                            board.cells[row][col].selected = False
+                                    board.cells[x][y].selected = True
+                                board.draw()
 
                 elif event.type == pygame.KEYDOWN:
                     if event.key in key_presses:
