@@ -1,5 +1,5 @@
 from cell import Cell
-from sudokugenerator import generate_sudoku
+from sudoku_generator import generate_sudoku
 import pygame
 
 class Board:
